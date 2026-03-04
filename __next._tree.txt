@@ -1,0 +1,10 @@
+:HL["/_next/static/chunks/10229d69168e71f6.css","style"]
+:HL["/_next/static/media/2a65768255d6b625-s.p.d19752fb.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/THICCCBOI_Bold-s.p.1d362021.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/THICCCBOI_ExtraBold-s.p.845af343.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/THICCCBOI_Light-s.p.bb41b683.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/THICCCBOI_Medium-s.p.b6a790bf.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/THICCCBOI_Regular-s.p.f8aed913.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/THICCCBOI_SemiBold-s.p.fd61abfc.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/THICCCBOI_Thin-s.p.7f21b51b.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+0:{"buildId":"UoJbq_llIOfRQ1QNIt1SU","tree":{"name":"","paramType":null,"paramKey":"","hasRuntimePrefetch":false,"slots":{"children":{"name":"__PAGE__","paramType":null,"paramKey":"__PAGE__","hasRuntimePrefetch":false,"slots":null,"isRootLayout":false}},"isRootLayout":true},"staleTime":300}
