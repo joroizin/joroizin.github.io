@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GIF Mania — "Everyone is waiting for…" shame options</title>
+<style>
+  @font-face {
+    font-family: 'Bungee';
+    font-weight: 400;
+    src: url('../frontend/src/assets/fonts/bungee-400-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Rubik';
+    font-weight: 300 900;
+    src: url('../frontend/src/assets/fonts/rubik-latin.woff2') format('woff2');
+  }
+
+  :root {
+    --font-display: 'Bungee', 'Rubik', sans-serif;
+    --font-body: 'Rubik', ui-sans-serif, system-ui, sans-serif;
+    --color-night: #0b0820;
+    --color-ink: #151033;
+    --color-panel: #1e1745;
+    --color-panel-2: #292058;
+    --color-line: #3b3178;
+    --color-lilac: #a89ae0;
+    --color-fog: #e9e5ff;
+    --color-magenta: #ff3d8b;
+    --color-magenta-deep: #c4145e;
+    --color-cyan: #26e6ff;
+    --color-acid: #ffe14d;
+    --color-mint: #4dffa6;
+    --shadow-pop: 4px 4px 0 0 rgb(0 0 0 / 0.9);
+  }
+
+  * { box-sizing: border-box; }
+  html {
+    font-family: var(--font-body);
+    background: var(--color-night);
+    color: var(--color-fog);
+  }
+  body { margin: 0; min-height: 100dvh; -webkit-font-smoothing: antialiased; }
+
+  .page {
+    background:
+      radial-gradient(60rem 40rem at 85% -10%, rgb(255 61 139 / 0.16), transparent 60%),
+      radial-gradient(50rem 34rem at -10% 110%, rgb(38 230 255 / 0.12), transparent 60%),
+      var(--color-night);
+    min-height: 100dvh;
+    padding: 3rem 1rem 6rem;
+  }
+  .page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgb(233 229 255 / 0.05) 1px, transparent 1.5px);
+    background-size: 22px 22px;
+  }
+
+  .wrap { max-width: 1150px; margin: 0 auto; position: relative; }
+  h1 { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.6rem); margin: 0 0 0.6rem; }
+  h1 .hi { color: var(--color-magenta); }
+  .intro { color: var(--color-lilac); max-width: 68ch; line-height: 1.55; margin: 0 0 1.2rem; }
+  .intro b { color: var(--color-fog); }
+
+  .notecard {
+    background: var(--color-panel); border: 3px solid #000; border-radius: 1rem;
+    box-shadow: var(--shadow-pop); padding: 1rem 1.3rem; margin: 0 0 3.2rem;
+    color: var(--color-lilac); font-size: 0.9rem; line-height: 1.55; max-width: 78ch;
+  }
+  .notecard b { color: var(--color-fog); }
+  .notecard ul { margin: 0.4rem 0 0; padding-inline-start: 1.2rem; }
+  .notecard li { margin-top: 0.35rem; }
+  .notecard .q { color: var(--color-acid); font-weight: 800; }
+
+  .option { margin-bottom: 4.5rem; }
+  .opt-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.7rem 1rem; margin-bottom: 0.35rem; }
+  .opt-head h2 { font-family: var(--font-display); font-size: 1.45rem; margin: 0; }
+  .opt-head h2 .tag { color: var(--color-cyan); }
+  .opt-desc { color: var(--color-lilac); max-width: 72ch; line-height: 1.5; margin: 0 0 1rem; }
+  .opt-desc b { color: var(--color-fog); }
+
+  .btn-pop {
+    font-family: var(--font-display);
+    border: 3px solid #000; border-radius: 1rem; box-shadow: var(--shadow-pop);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.15s ease;
+    user-select: none; cursor: pointer;
+    background: var(--color-magenta); color: #fff;
+    font-size: 0.85rem; padding: 0.45rem 1.1rem;
+  }
+  .btn-pop:hover { filter: brightness(1.08); }
+  .btn-pop:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 rgb(0 0 0 / 0.9); }
+
+  .verdict { color: var(--color-lilac); font-size: 0.88rem; max-width: 72ch; line-height: 1.5; margin: 0.9rem 0 0; }
+  .verdict b { color: var(--color-fog); }
+  .verdict .plus { color: var(--color-mint); font-weight: 800; }
+  .verdict .minus { color: var(--color-magenta); font-weight: 800; }
+
+  /* ---- the fake TV: fixed 1280x720 stage scaled to fit ---- */
+  .tvwrap {
+    position: relative;
+    overflow: hidden;
+    border: 3px solid #000;
+    border-radius: 1.25rem;
+    box-shadow: 8px 8px 0 0 rgb(0 0 0 / 0.9);
+  }
+  .tvstage {
+    position: absolute; top: 0; left: 0;
+    width: 1280px; height: 720px;
+    transform-origin: top left;
+    overflow: hidden;
+    background:
+      radial-gradient(60rem 40rem at 85% -10%, rgb(255 61 139 / 0.16), transparent 60%),
+      radial-gradient(50rem 34rem at -10% 110%, rgb(38 230 255 / 0.12), transparent 60%),
+      var(--color-night);
+  }
+  .tvstage::before {
+    content: '';
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(rgb(233 229 255 / 0.05) 1px, transparent 1.5px);
+    background-size: 22px 22px;
+  }
+
+  /* ---- shared in-stage pieces (the real submitting screen) ---- */
+  .ghead {
+    position: absolute; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 36px 0; z-index: 20;
+  }
+  .wordmark { font-family: var(--font-display); font-size: 24px; }
+  .wordmark i { font-style: normal; color: var(--color-magenta); }
+  .roundtag { font-family: var(--font-display); font-size: 18px; color: var(--color-lilac); }
+  .roundtag i { font-style: normal; color: rgb(233 229 255 / 0.4); }
+  .pinchip {
+    font-family: var(--font-display); letter-spacing: 0.2em; color: var(--color-acid);
+    background: var(--color-panel); border: 3px solid #000; border-radius: 12px;
+    box-shadow: var(--shadow-pop); padding: 6px 16px; font-size: 16px;
+  }
+
+  .sub { position: absolute; inset: 0; padding-top: 108px; text-align: center; transition: filter 0.4s ease; }
+  .squestion {
+    margin: 0 auto; max-width: 980px; font-family: var(--font-display);
+    font-size: 44px; font-weight: 400; line-height: 1.15; color: var(--color-fog);
+  }
+  .hunting { margin: 16px 0 0; color: var(--color-lilac); font-size: 20px; }
+  .subrow { margin-top: 44px; display: flex; align-items: center; justify-content: center; gap: 52px; }
+
+  .ring { flex: none; }
+  .ring text { font-family: var(--font-display); fill: var(--color-fog); }
+  .counter { text-align: left; }
+  .counter .big { font-family: var(--font-display); font-size: 60px; color: var(--color-cyan); margin: 0; font-variant-numeric: tabular-nums; }
+  .counter .big .of { font-size: 30px; color: rgb(233 229 255 / 0.4); }
+  .counter .lab { margin: 4px 0 0; font-size: 14px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-lilac); }
+  .cbar { margin-top: 12px; height: 16px; width: 256px; overflow: hidden; border-radius: 999px; border: 3px solid #000; background: var(--color-ink); }
+  .cbar i { display: block; height: 100%; width: 87.5%; background: var(--color-mint); }
+
+  /* keyframes shared with the app */
+  @keyframes rise { from { opacity: 0; transform: translateY(18px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+  @keyframes dropIn {
+    from { opacity: 0; transform: translateY(-55px) scale(0.92); }
+    70% { opacity: 1; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-1.5deg); }
+    50% { transform: rotate(1.5deg); }
+  }
+  @keyframes pulseSoft { 0%, 100% { opacity: 1; } 50% { opacity: 0.75; } }
+  .anim-rise { animation: rise 0.45s cubic-bezier(0.22, 1.4, 0.36, 1) both; }
+  .anim-pop  { animation: pop 0.35s cubic-bezier(0.22, 1.6, 0.36, 1) both; }
+
+  /* =========================================================
+     OPTION A — Callout pill
+     ========================================================= */
+  .a-pill-slot { position: absolute; left: 0; right: 0; bottom: 96px; display: flex; justify-content: center; }
+  .a-pill {
+    display: inline-flex; align-items: baseline; gap: 10px;
+    font-family: var(--font-display); font-size: 30px; color: var(--color-night);
+    background: var(--color-acid); border: 4px solid #000; border-radius: 999px;
+    box-shadow: var(--shadow-pop); padding: 12px 30px;
+    animation: dropIn 0.55s cubic-bezier(0.22, 1.4, 0.36, 1) 0.8s both,
+               wobble 1.6s ease-in-out 1.45s infinite;
+  }
+  .a-pill .who { color: var(--color-magenta-deep); }
+
+  /* =========================================================
+     OPTION B — Spotlight takeover
+     ========================================================= */
+  .sub.b-dim { animation: bDim 0.4s ease 0.9s both; }
+  @keyframes bDim { to { filter: blur(9px) brightness(0.5) saturate(0.7); } }
+  .b-scrim {
+    position: absolute; inset: 0; z-index: 10;
+    background: rgb(11 8 32 / 0.62);
+    animation: pop 0.4s ease 0.9s both;
+  }
+  .b-spot {
+    position: absolute; inset: 0; z-index: 11;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding-top: 30px;
+    animation: dropIn 0.55s cubic-bezier(0.22, 1.4, 0.36, 1) 1.05s both;
+  }
+  .b-spot::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(34rem 24rem at 50% 46%, rgb(255 225 77 / 0.14), transparent 65%);
+  }
+  .b-eyebrow { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 0.28em; text-transform: uppercase; color: var(--color-lilac); }
+  .b-name {
+    margin: 10px 0 0; font-family: var(--font-display); font-size: 130px; line-height: 1;
+    color: var(--color-acid); text-shadow: 7px 7px 0 rgb(0 0 0 / 0.9);
+    animation: pulseSoft 1.4s ease-in-out 1.6s infinite;
+  }
+  .b-sub { margin: 22px 0 0; font-size: 22px; color: var(--color-fog); }
+  .b-sub b { color: var(--color-magenta); }
+  .b-ring { margin-top: 26px; }
+
+  /* =========================================================
+     OPTION C — Roster flip
+     ========================================================= */
+  .c-roster { max-width: 620px; text-align: left; }
+  .c-count { margin: 0 0 12px; font-size: 15px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-lilac); }
+  .c-count b { color: var(--color-cyan); font-size: 19px; }
+  .c-chips { display: flex; flex-wrap: wrap; gap: 12px; }
+  .c-chip {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: var(--color-ink); border: 3px solid var(--color-mint); border-radius: 12px;
+    box-shadow: var(--shadow-pop); padding: 8px 16px;
+    font-family: var(--font-display); font-size: 19px; color: var(--color-fog);
+    animation: pop 0.3s cubic-bezier(0.22, 1.6, 0.36, 1) both;
+  }
+  .c-chip .tick { color: var(--color-mint); font-size: 16px; }
+  .c-chip.lag {
+    border-color: var(--color-magenta); background: var(--color-magenta); color: #fff;
+    transform-origin: center;
+    animation: pop 0.3s cubic-bezier(0.22, 1.6, 0.36, 1) both, wobble 1.2s ease-in-out 1.4s infinite;
+  }
+  .c-chip.lag .tick { color: #fff; }
+  .c-lagline { margin: 14px 0 0; font-size: 17px; color: var(--color-lilac); animation: rise 0.4s ease 1.2s both; }
+  .c-lagline b { color: var(--color-magenta); }
+
+  /* =========================================================
+     OPTION D — Breaking-news ticker
+     ========================================================= */
+  .d-ticker {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 15;
+    display: flex; align-items: stretch;
+    background: var(--color-magenta); border-top: 4px solid #000;
+    animation: dropUp 0.5s cubic-bezier(0.22, 1.4, 0.36, 1) 0.9s both;
+  }
+  @keyframes dropUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+  .d-live {
+    flex: none; display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-display); font-size: 20px; color: var(--color-night);
+    background: var(--color-acid); border-right: 4px solid #000; padding: 14px 22px;
+  }
+  .d-live .dot { width: 12px; height: 12px; border-radius: 999px; background: var(--color-magenta-deep); animation: pulseSoft 0.9s ease-in-out infinite; }
+  .d-crawlmask { flex: 1; overflow: hidden; display: flex; align-items: center; }
+  .d-crawl {
+    display: inline-flex; gap: 64px; white-space: nowrap; padding-left: 24px;
+    font-family: var(--font-display); font-size: 24px; color: #fff;
+    animation: crawl 11s linear 1.4s infinite;
+  }
+  @keyframes crawl { to { transform: translateX(-50%); } }
+  .d-crawl .who { color: var(--color-acid); }
+
+  /* =========================================================
+     OPTION E — Wanted poster
+     ========================================================= */
+  .sub.e-shift .subrow { justify-content: flex-start; padding-left: 200px; }
+  .e-poster {
+    position: absolute; top: 178px; right: 120px; width: 330px; z-index: 12;
+    background: var(--color-panel-2); border: 4px solid var(--color-acid); border-radius: 18px;
+    box-shadow: 8px 8px 0 0 rgb(0 0 0 / 0.9); padding: 20px 22px 18px; text-align: center;
+    transform: rotate(4deg);
+    animation: posterIn 0.6s cubic-bezier(0.22, 1.4, 0.36, 1) 0.9s both,
+               posterSwing 2.4s ease-in-out 1.6s infinite;
+  }
+  @keyframes posterIn {
+    from { opacity: 0; transform: rotate(14deg) translateY(-70px) scale(0.85); }
+    to { opacity: 1; transform: rotate(4deg) translateY(0) scale(1); }
+  }
+  @keyframes posterSwing { 0%, 100% { transform: rotate(4deg); } 50% { transform: rotate(1.5deg); } }
+  .e-wanted { margin: 0; font-family: var(--font-display); font-size: 40px; color: var(--color-acid); letter-spacing: 0.06em; }
+  .e-photo {
+    margin: 12px auto 0; width: 210px; height: 150px; position: relative;
+    border: 4px solid #000; border-radius: 12px; overflow: hidden; background: var(--color-ink);
+  }
+  .e-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) brightness(0.55); }
+  .e-photo .q { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-display); font-size: 78px; color: var(--color-acid); text-shadow: 4px 4px 0 rgb(0 0 0 / 0.9); }
+  .e-name { margin: 12px 0 0; font-family: var(--font-display); font-size: 30px; color: var(--color-fog); }
+  .e-line { margin: 6px 0 0; font-size: 15.5px; color: var(--color-lilac); line-height: 1.4; }
+  .e-line b { color: var(--color-mint); }
+</style>
+</head>
+<body>
+<div class="page"><div class="wrap">
+
+  <h1>“Everyone is waiting for <span class="hi">Maya</span>” <span style="color:var(--color-lilac)">— shame options</span></h1>
+  <p class="intro">
+    Five takes on calling out the last player still picking a GIF, on the <b>host screen and /tv</b>
+    during the submitting phase. Mock data: 8 players, 7 locked in, ~12s left on a 45s clock.
+    Each stage is the real 1280×720 submitting layout with the shame element added — hit
+    <b>Replay</b> to re-run the entrance.
+  </p>
+
+  <div class="notecard">
+    <b>Behavior &amp; plumbing notes (all options)</b>
+    <ul>
+      <li>The host today only receives <b>submitted_count</b> — the shame needs the backend to broadcast the <b>names of pending players</b> (or just the last one) on submission progress and in the snapshot.</li>
+      <li>Must respect presence: the pending set should be <b>waited-for players only</b> — never shame someone who disconnected (the 60s stop-waiting rule already excludes them from early-advance).</li>
+      <li>Copy needs an <b>en + he</b> catalog entry; the name sits mid-sentence, so both languages need their own template (Hebrew flows RTL).</li>
+      <li><span class="q">Question:</span> trigger as soon as exactly one player remains, or only when the clock is low (say ≤20s)? Instant is funnier; delayed is kinder to fast rooms.</li>
+      <li><span class="q">Question:</span> also shame the last <b>voter</b> during voting, or submitting only?</li>
+      <li><span class="q">Question:</span> when <b>two</b> stragglers remain — stay silent, or “Everyone is waiting for Maya &amp; Omer”? (Mocks show the single-name case.)</li>
+      <li><span class="q">Question:</span> should the laggard’s own phone get a nudge too (vibration + “everyone’s waiting for you!”)? Phones stay silent audio-wise per the product rule; vibration is available.</li>
+    </ul>
+  </div>
+
+  <!-- ================= OPTION A ================= -->
+  <div class="option" id="opt-a">
+    <div class="opt-head">
+      <h2><span class="tag">Option A</span> — Callout pill</h2>
+      <button class="btn-pop" data-replay="a">Replay</button>
+    </div>
+    <p class="opt-desc">
+      The submitting screen stays exactly as it is; a wobbling acid pill drops in below the
+      counter. Same visual grammar as the warm-up / final-round banners, so it costs nothing new.
+    </p>
+    <div class="tvwrap"><div class="tvstage" data-opt="a"></div></div>
+    <p class="verdict">
+      <span class="plus">+</span> Minimal, on-brand, trivially reversible; the screen stays about the question.
+      <span class="minus">−</span> Easy to miss from the couch; the least “moment”-like of the five.
+    </p>
+  </div>
+
+  <!-- ================= OPTION B ================= -->
+  <div class="option" id="opt-b">
+    <div class="opt-head">
+      <h2><span class="tag">Option B</span> — Spotlight takeover</h2>
+      <button class="btn-pop" data-replay="b">Replay</button>
+    </div>
+    <p class="opt-desc">
+      The whole stage dims and the laggard’s name goes up in lights — giant display type under a
+      spotlight, countdown ring front and center. The room <b>will</b> chant the name. Reverts the
+      moment they submit.
+    </p>
+    <div class="tvwrap"><div class="tvstage" data-opt="b"></div></div>
+    <p class="verdict">
+      <span class="plus">+</span> Maximum party energy; unmissable; a real game-show beat.
+      <span class="minus">−</span> Hides the question and progress; strongest shame — could feel harsh for shy players or kids’ games (could gate it off when kid-friendly is on).
+    </p>
+  </div>
+
+  <!-- ================= OPTION C ================= -->
+  <div class="option" id="opt-c">
+    <div class="opt-head">
+      <h2><span class="tag">Option C</span> — Roster flip</h2>
+      <button class="btn-pop" data-replay="c">Replay</button>
+    </div>
+    <p class="opt-desc">
+      When one player remains, the anonymous “7 / 8” counter flips into the full roster: everyone
+      who locked in gets a mint ✓ chip, the straggler’s chip burns magenta and wobbles. Shames by
+      contrast — and gives the finished players their little moment too.
+    </p>
+    <div class="tvwrap"><div class="tvstage" data-opt="c"></div></div>
+    <p class="verdict">
+      <span class="plus">+</span> Informative, celebrates the fast players, gentle-but-clear shame; scales to the two-stragglers case for free.
+      <span class="minus">−</span> Busiest layout of the five; chips get tight at 20 players.
+    </p>
+  </div>
+
+  <!-- ================= OPTION D ================= -->
+  <div class="option" id="opt-d">
+    <div class="opt-head">
+      <h2><span class="tag">Option D</span> — Breaking-news ticker</h2>
+      <button class="btn-pop" data-replay="d">Replay</button>
+    </div>
+    <p class="opt-desc">
+      A “LIVE” news crawl slides up from the bottom edge and loops. The stage above is untouched,
+      but the motion makes it impossible to ignore. The crawl copy can rotate through a few jokes.
+    </p>
+    <div class="tvwrap"><div class="tvstage" data-opt="d"></div></div>
+    <p class="verdict">
+      <span class="plus">+</span> Funny, non-blocking, very TV; extra joke lines are free content.
+      <span class="minus">−</span> Continuous motion competes with the countdown; jokes need writing (and translating) well.
+    </p>
+  </div>
+
+  <!-- ================= OPTION E ================= -->
+  <div class="option" id="opt-e">
+    <div class="opt-head">
+      <h2><span class="tag">Option E</span> — Wanted poster</h2>
+      <button class="btn-pop" data-replay="e">Replay</button>
+    </div>
+    <p class="opt-desc">
+      A tilted WANTED poster swings in beside the counter: mystery mugshot, the name, “last seen
+      browsing trending GIFs”. Pure Jackbox energy — a prop, not a banner.
+    </p>
+    <div class="tvwrap"><div class="tvstage" data-opt="e"></div></div>
+    <p class="verdict">
+      <span class="plus">+</span> The most characterful; screenshots well; shame lands as a joke about the situation, not the person.
+      <span class="minus">−</span> Most bespoke CSS to build/maintain; needs the counter nudged aside to make room.
+    </p>
+  </div>
+
+</div></div>
+
+<script>
+const STILL = (id) => `../frontend/src/assets/bg-gifs/${id}.still.webp`;
+const PLAYERS = ['Noa', 'Tomer', 'Shira', 'Omer', 'Dan', 'Lior', 'Alma'];
+const LAG = 'Maya';
+
+const HEAD = `
+  <div class="ghead">
+    <span class="wordmark">GIF <i>Mania</i></span>
+    <span class="roundtag">Round 3 <i>of</i> 7</span>
+    <span class="pinchip">483 917</span>
+  </div>`;
+
+/* countdown ring: 12s left of 45 */
+const RING = (size, color = 'var(--color-cyan)', cls = '') => {
+  const C = 2 * Math.PI * 42;
+  return `
+  <svg class="ring ${cls}" width="${size}" height="${size}" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="46" fill="var(--color-ink)" stroke="#000" stroke-width="5"/>
+    <circle cx="50" cy="50" r="42" fill="none" stroke="var(--color-line)" stroke-width="7"/>
+    <circle cx="50" cy="50" r="42" fill="none" stroke="${color}" stroke-width="7" stroke-linecap="round"
+      stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C * (1 - 12 / 45)).toFixed(1)}"
+      transform="rotate(-90 50 50)"/>
+    <text x="50" y="62" text-anchor="middle" font-size="34">12</text>
+  </svg>`;
+};
+
+const COUNTER = `
+  <div class="counter">
+    <p class="big">7<span class="of"> / 8</span></p>
+    <p class="lab">GIFs locked in</p>
+    <div class="cbar"><i></i></div>
+  </div>`;
+
+const SUB = ({ counter = COUNTER, subCls = '', extra = '' } = {}) => `
+  ${HEAD}
+  <div class="sub ${subCls}">
+    <h2 class="squestion anim-rise">“When the WiFi drops for exactly one second”</h2>
+    <p class="hunting">Players are hunting for the perfect GIF…</p>
+    <div class="subrow">
+      ${RING(150)}
+      ${counter}
+    </div>
+  </div>
+  ${extra}`;
+
+const builders = {
+  /* A — callout pill */
+  a: () => SUB({
+    extra: `
+      <div class="a-pill-slot">
+        <span class="a-pill">👀 Everyone is waiting for&nbsp;<span class="who">${LAG}</span>!</span>
+      </div>`,
+  }),
+
+  /* B — spotlight takeover */
+  b: () => SUB({
+    subCls: 'b-dim',
+    extra: `
+      <div class="b-scrim"></div>
+      <div class="b-spot">
+        <p class="b-eyebrow">Everyone is waiting for</p>
+        <p class="b-name">${LAG}</p>
+        <p class="b-sub">7 of 8 GIFs are in — <b>the clock is ticking!</b></p>
+        <div class="b-ring">${RING(120, 'var(--color-magenta)')}</div>
+      </div>`,
+  }),
+
+  /* C — roster flip */
+  c: () => SUB({
+    counter: `
+      <div class="c-roster">
+        <p class="c-count"><b>7 / 8</b> &nbsp;GIFs locked in</p>
+        <div class="c-chips">
+          ${PLAYERS.map((n, i) =>
+            `<span class="c-chip" style="animation-delay:${(0.1 + i * 0.07).toFixed(2)}s"><span class="tick">✓</span>${n}</span>`
+          ).join('')}
+          <span class="c-chip lag" style="animation-delay:0.75s"><span class="tick">⏳</span>${LAG}…</span>
+        </div>
+        <p class="c-lagline">Everyone is waiting for <b>${LAG}</b>!</p>
+      </div>`,
+  }),
+
+  /* D — breaking-news ticker */
+  d: () => {
+    const line = `🚨 Everyone is waiting for <span class="who">${LAG}</span> 🚨&nbsp;&nbsp;·&nbsp;&nbsp;${LAG} is still browsing GIFs&nbsp;&nbsp;·&nbsp;&nbsp;7 of 8 locked in&nbsp;&nbsp;·&nbsp;&nbsp;any GIF is better than no GIF, ${LAG}&nbsp;&nbsp;·&nbsp;&nbsp;`;
+    return SUB({
+      extra: `
+        <div class="d-ticker">
+          <span class="d-live"><span class="dot"></span>LIVE</span>
+          <div class="d-crawlmask"><div class="d-crawl"><span>${line}</span><span>${line}</span></div></div>
+        </div>`,
+    });
+  },
+
+  /* E — wanted poster */
+  e: () => SUB({
+    subCls: 'e-shift',
+    extra: `
+      <div class="e-poster">
+        <p class="e-wanted">WANTED</p>
+        <div class="e-photo"><img src="${STILL('bg12')}" alt=""><span class="q">?</span></div>
+        <p class="e-name">${LAG}</p>
+        <p class="e-line">Last seen browsing trending GIFs.<br>Everyone is waiting.<br><b>Reward: the game continues.</b></p>
+      </div>`,
+  }),
+};
+
+const stages = {};
+document.querySelectorAll('.tvstage').forEach((s) => { stages[s.dataset.opt] = s; });
+
+function run(key) {
+  stages[key].innerHTML = builders[key]();
+}
+Object.keys(builders).forEach(run);
+
+document.querySelectorAll('[data-replay]').forEach((btn) => {
+  btn.addEventListener('click', () => run(btn.dataset.replay));
+});
+
+/* scale each fixed 1280x720 stage to its wrapper's width */
+function rescale() {
+  document.querySelectorAll('.tvwrap').forEach((w) => {
+    const s = w.clientWidth / 1280;
+    w.style.height = `${720 * s}px`;
+    w.querySelector('.tvstage').style.transform = `scale(${s})`;
+  });
+}
+window.addEventListener('resize', rescale);
+rescale();
+</script>
+</body>
+</html>
