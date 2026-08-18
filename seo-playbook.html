@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GIF Mania SEO Playbook</title>
+<style>
+  @font-face {
+    font-family: 'Bungee';
+    font-style: normal; font-weight: 400; font-display: swap;
+    src: url('../frontend/src/assets/fonts/bungee-400-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Rubik';
+    font-style: normal; font-weight: 300 900; font-display: swap;
+    src: url('../frontend/src/assets/fonts/rubik-latin.woff2') format('woff2');
+  }
+  :root {
+    --night:#0b0820; --ink:#151033; --panel:#1e1745; --panel2:#292058; --line:#3b3178;
+    --lilac:#a89ae0; --fog:#e9e5ff; --magenta:#ff3d8b; --cyan:#26e6ff; --acid:#ffe14d; --mint:#4dffa6;
+    --disp:'Bungee','Rubik',sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { background:#060412; color:var(--fog); font-family:'Rubik',ui-sans-serif,system-ui,sans-serif; }
+  body { margin:0; font-size:14.5px; line-height:1.6; background:#060412; }
+  main { max-width:1100px; margin:0 auto; padding:28px 22px 90px; }
+  h1,h2,h3,h4 { font-family:var(--disp); letter-spacing:.01em; margin:0; font-weight:400; text-wrap:balance; }
+  p { margin:0 0 10px; color:var(--lilac); }
+  li { color:var(--lilac); margin:0 0 6px; }
+  b, strong { color:var(--fog); }
+  code { font-family:ui-monospace,Menlo,monospace; font-size:.92em; color:var(--cyan); }
+  a { color:var(--cyan); }
+  ul,ol { margin:0 0 12px; padding-inline-start:22px; }
+
+  header.top { border-bottom:1px solid #221a4e; padding:4px 0 16px; margin-bottom:22px; }
+  header.top h1 { font-size:22px; }
+  header.top h1 .m{color:var(--magenta)} header.top h1 .c{color:var(--cyan)}
+  header.top p { margin:6px 0 0; max-width:100ch; }
+  .date { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--lilac); }
+
+  nav.toc { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 4px; }
+  nav.toc a { font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; text-decoration:none;
+    color:var(--fog); background:var(--panel); border:2px solid #000; border-radius:999px; padding:4px 12px; }
+  nav.toc a:hover { background:var(--panel2); }
+
+  .pill { display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+    border:2px solid #000; border-radius:999px; padding:2px 10px; vertical-align:1px; }
+  .pill.red { background:#ff3d8b; color:#fff; }
+  .pill.cyan { background:#26e6ff; color:#0b0820; }
+  .pill.gray { background:#292058; color:#e9e5ff; }
+  .pill.mint { background:#4dffa6; color:#0b0820; }
+  .pill.acid { background:#ffe14d; color:#0b0820; }
+
+  section { margin:40px 0 0; }
+  section > h2 { font-size:19px; margin-bottom:4px; }
+  section > h2 .num { color:var(--magenta); margin-inline-end:6px; }
+  section > p.sub { margin:0 0 14px; max-width:95ch; }
+  h3 { font-size:14px; color:var(--acid); margin:22px 0 8px; }
+  h4 { font-size:12.5px; color:var(--cyan); margin:14px 0 6px; }
+
+  .verdict { border:3px solid #000; border-radius:20px; box-shadow:8px 8px 0 0 rgb(0 0 0/.9);
+    background:linear-gradient(135deg,#1e1745,#251b52); padding:20px 22px; margin:22px 0 6px; }
+  .verdict h2 { font-size:16px; color:var(--acid); margin-bottom:8px; }
+  .verdict p { max-width:100ch; }
+  .verdict p:last-child { margin-bottom:0; }
+
+  .card { background:var(--panel); border:2px solid #000; border-radius:16px; box-shadow:5px 5px 0 0 rgb(0 0 0/.85);
+    padding:16px 18px; margin:14px 0; }
+  .card h3 { margin-top:0; }
+  .card p:last-child, .card ul:last-child { margin-bottom:0; }
+
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:820px){ .grid2{ grid-template-columns:1fr; } }
+
+  .tablewrap { overflow-x:auto; margin:12px 0; }
+  table { border-collapse:collapse; width:100%; min-width:720px; font-size:13.5px; }
+  th { font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--cyan); text-align:start;
+    border-bottom:2px solid var(--line); padding:6px 10px; }
+  td { border-bottom:1px solid #221a4e; padding:8px 10px; vertical-align:top; color:var(--lilac); }
+  td b { color:var(--fog); }
+  td .kw { font-family:ui-monospace,Menlo,monospace; font-size:12.5px; color:var(--fog); }
+  tr:last-child td { border-bottom:none; }
+
+  .steps { counter-reset: step; list-style:none; padding-inline-start:0; }
+  .steps > li { counter-increment: step; position:relative; padding-inline-start:38px; margin-bottom:10px; }
+  .steps > li::before { content: counter(step); position:absolute; inset-inline-start:0; top:1px;
+    width:24px; height:24px; border-radius:999px; background:var(--magenta); color:#fff;
+    font-family:var(--disp); font-size:12px; display:flex; align-items:center; justify-content:center;
+    border:2px solid #000; }
+
+  .who { font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; border-radius:6px;
+    padding:1px 7px; border:1.5px solid #000; }
+  .who.claude { background:#26e6ff; color:#0b0820; }
+  .who.jon { background:#ffe14d; color:#0b0820; }
+
+  .quiet { font-size:12.5px; color:#8578c2; }
+  hr.sp { border:none; border-top:1px solid #221a4e; margin:18px 0; }
+</style>
+</head>
+<body>
+<main>
+
+<header class="top">
+  <p class="date">Planning · 2026-08-14 · research: 4 tracks (site audit + 3 live SERP sweeps) · <b style="color:var(--mint)">updated same day: phase-0 code done</b></p>
+  <h1>GIF <span class="m">MANIA</span> — SEO <span class="c">PLAYBOOK</span></h1>
+  <p>How gifmania.app goes from <b>zero indexed presence</b> to owning the searches it can actually win: the GIF-wars concept space, the free-Jackbox-alternative cluster, and the no-download party/team long tail. Built around Jon's constraints: <b>a few hours/month</b>, <b>free tools first</b> (paid levers listed with expected outcomes), <b>English/global first</b>, remote play is real and claimable today. <b>Start with the status board (§01)</b> — it says exactly where we are, what's next, and whose move it is; the sections after it are the reference material behind the plan.</p>
+  <nav class="toc">
+    <a href="#verdict">Verdict</a>
+    <a href="#status">Status &amp; task list</a>
+    <a href="#decisions">Open dilemmas</a>
+    <a href="#keywords">Keyword map</a>
+    <a href="#pages">Pages to build</a>
+    <a href="#links">Links &amp; listings</a>
+    <a href="#legal">Trademark</a>
+    <a href="#measure">Measurement loop</a>
+    <a href="#paid">Paid levers</a>
+    <a href="#timeline">Expectations</a>
+  </nav>
+</header>
+
+<div class="verdict" id="verdict">
+  <h2>THE VERDICT</h2>
+  <p><b>The single biggest finding: gifmania.app is not in Google at all.</b> <code>site:gifmania.app</code> returns nothing — before any keyword strategy matters, the site needs Search Console verification and an indexing push. Bonus problem: Google currently thinks "gifmania" means old GIF-clipart portals (gifmania.com and friends), so even the brand query needs repair.</p>
+  <p><b>The opportunity is real and unusually specific.</b> Three separate research tracks converged on the same shape: the searches GIF Mania can win are the ones where tiny indie sites already rank — and none of them has a product as finished as yours. Nobody ranking for <code>gif wars</code> is a playable game (it's all "how to run it manually in Slack" articles). The <code>free jackbox alternative</code> SERP is held by one-person projects. The party long tail (<code>party games no app download</code>, <code>browser party games free</code>) has almost no major media in it. Meanwhile the big generic team-building keywords are a content fortress (Asana, Deel, teambuilding.com) — we don't attack those directly; we get GIF Mania <em>featured in</em> their listicles instead.</p>
+  <p><b>The plan in one line:</b> fix indexing this week → tune the homepage + ship 2 static landing pages (<code>/gif-wars</code>, <code>/jackbox-alternative</code>) in month 1 → 3 use-case pages in month 2 → ~15 listicle/directory inclusions ongoing → steer monthly by Search Console data.</p>
+  <p><b>Status as of Aug 14:</b> the technical code pass is <span style="color:var(--mint)">done</span> (in the repo, awaiting commit + deploy). The ball is now with Jon: ~40 minutes of account setup (§01, "Now") unblocks everything else.</p>
+</div>
+
+<section id="status">
+  <h2><span class="num">01</span>STATUS &amp; TASK LIST</h2>
+  <p class="sub">The single place that answers "where are we and what's next." Steps run in order; each block names whose move it is.</p>
+
+  <div class="card">
+    <h3><span class="pill mint">Done</span> Aug 14 — research + phase-0 code</h3>
+    <ul>
+      <li><b>Research finished:</b> site audit, 3 SERP sweeps → the keyword map (§03) and this plan. Plus the rebrand analysis (<b>gif-wars-rebrand.html</b>) — currently parked.</li>
+      <li><b>Phase-0 code implemented</b> (in the working tree, verified by typecheck/lint/tests/build — <b>not yet committed or deployed</b>):
+        FAQ + Organization/WebSite structured data on the homepage; meta description tightened; footer heading cleanup; sitemap now lists all 4 indexable pages; /contact, /privacy, /terms each got their own title + description; a real 404 page (bad URLs no longer land on the noindexed join screen); /staff added to the noindex rule; the 2.1&nbsp;MB CTA GIF is now a 0.7&nbsp;MB WebP; CLAUDE.md now encodes the rules for future marketing pages (static entries, sitemap, noindex carve-outs).</li>
+      <li><b>Decisions already made:</b> English/global first · free tools first (paid menu in §08 for revisiting) · a few hours/month effort · remote-play keywords are fair game · "Kahoot meets CAH" positioning is safe · own the "GIF Wars" term via a page while keeping the GIF Mania brand (superseded only if the parked rebrand reopens).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3><span class="pill acid">Now</span> Jon's ~40 minutes — everything is blocked on this</h3>
+    <ol class="steps">
+      <li><b>Commit + deploy the phase-0 changes</b> <span class="who jon">JON</span> — or say the word and Claude commits; <code>deploy.sh</code> wants a clean tree and green CI. Until this ships, Google has nothing better to crawl.</li>
+      <li><b>Google Search Console</b> <span class="who jon">JON</span> — verify <code>gifmania.app</code> (Domain property, DNS TXT record), submit <code>sitemap.xml</code>, request indexing for <code>/</code>. <b>Step zero of the whole strategy.</b></li>
+      <li><b>Bing Webmaster Tools</b> <span class="who jon">JON</span> — sign in, one-click import from the GSC property. Feeds ChatGPT/Copilot/DuckDuckGo.</li>
+      <li><b>Ahrefs Webmaster Tools</b> <span class="who jon">JON</span> — free tier, verifies via the GSC connection. Backlink + audit monitoring.</li>
+      <li><b>Optional, ~$40/yr:</b> register <code>gifwars.app</code>, <code>gif-wars.com</code>, <code>playgifwars.com</code> <span class="who jon">JON</span> — keeps every rebrand option open regardless of the parked decision (see §02).</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3><span class="pill cyan">Next</span> Claude, already green-lit — starts on your go</h3>
+    <ol class="steps">
+      <li><b>Copy options page</b> <span class="who claude">CLAUDE</span> — homepage h1/title/subhead variants (how keyword-loaded vs. the current voice) as a planning page for you to pick from. This is dilemma #2 in §02.</li>
+      <li><b>Draft the two month-1 landing pages</b> <span class="who claude">CLAUDE</span> — <code>/gif-wars</code> and <code>/jackbox-alternative</code> as static pages (details §04); you review, then they ship with sitemap + noindex carve-outs.</li>
+      <li><b>First outreach batch</b> <span class="who claude">CLAUDE</span> drafts, <span class="who jon">JON</span> submits — the AlternativeTo listing text + pitch emails for CBR and 3–4 indie listicles (targets in §05).</li>
+      <li><b>IndexNow</b> <span class="who claude">CLAUDE</span> — static key file + a ping in deploy.sh so Bing's ecosystem hears about new pages instantly. Small; rides the next code pass (it was planned for phase 0 but hasn't been built yet).</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h3><span class="pill gray">Then</span> month 2 and ongoing</h3>
+    <ul>
+      <li>Use-case pages: <code>/work</code>, <code>/projector</code>, <code>/kahoot-alternative-for-parties</code> (§04).</li>
+      <li>Outreach continues (~1–2 h/month); optional Product Hunt / Show HN launch once the landing pages are live.</li>
+      <li><b>The monthly 30-minute loop starts as soon as GSC has data</b> (§07): find almost-ranking queries, check which pages convert in PostHog, do one improvement per month. Quarterly: re-rank the keyword map with real volume numbers.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="decisions">
+  <h2><span class="num">02</span>OPEN DILEMMAS</h2>
+  <p class="sub">Everything still genuinely undecided, with its deadline. Nothing else in this plan is waiting on a decision.</p>
+  <div class="tablewrap"><table>
+    <tr><th>#</th><th>Dilemma</th><th>Status</th><th>Real deadline</th></tr>
+    <tr>
+      <td><b>1</b></td>
+      <td><b>Rebrand to "GIF Wars"?</b> Full analysis in <b>gif-wars-rebrand.html</b> (options: keep brand / rebrand on gifwars.app ~$20 / rebrand + buy gifwars.com ~$3.7k).</td>
+      <td><span class="pill gray">Parked by Jon</span></td>
+      <td>Honest warning: parking has an expiry. Once the landing pages ship and links start pointing at gifmania.app, "later" quietly becomes "no" — the switch gets more expensive every month. Decide before step 7 (landing pages) goes live; the $40 defensive registrations (step 5) keep the option open meanwhile.</td>
+    </tr>
+    <tr>
+      <td><b>2</b></td>
+      <td><b>Homepage voice vs. keywords.</b> How much search language ("free browser party game", "no app download") enters the h1/title/subhead without flattening the current personality.</td>
+      <td><span class="pill cyan">Options page coming</span> (step 6)</td>
+      <td>Before the next deploy after the options page exists. Low stakes — every variant will be reversible copy.</td>
+    </tr>
+    <tr>
+      <td><b>3</b></td>
+      <td><b>When to spend money.</b> Free-first is decided; the open question is the trigger for the paid menu (§08) — the ~$50–100 ads experiment to validate keyword intent, or a paid tool.</td>
+      <td><span class="pill gray">Dormant</span></td>
+      <td>Revisit twice: before writing the month-2 pages (ads test could reorder them), and at ~1k organic clicks/month (paid tool starts earning its fee). Until then: nothing to decide.</td>
+    </tr>
+    <tr>
+      <td><b>4</b></td>
+      <td><b>Hebrew marketing page.</b> Product fully supports Hebrew; competition is near zero; parked by the English-first call.</td>
+      <td><span class="pill gray">Parked</span></td>
+      <td>None — it only gets cheaper to do after the English pages exist as templates. Revisit when the English pages are live and ranking.</td>
+    </tr>
+  </table></div>
+</section>
+
+<section id="keywords">
+  <h2><span class="num">03</span>THE KEYWORD MAP</h2>
+  <p class="sub">Ranked by winnability × intent match, from live SERP inspection (who actually ranks, how strong they are). Honest caveat: we have <b>no volume numbers yet</b> — that data starts flowing once Search Console and Bing are live, and the map gets re-ranked then. That's the continuous part of this process.</p>
+
+  <h3>Tier 1 — win these first <span class="pill mint">1–3 months</span></h3>
+  <div class="tablewrap"><table>
+    <tr><th>Cluster</th><th>Example queries</th><th>Who ranks today</th><th>Why we win</th></tr>
+    <tr>
+      <td><b>GIF Wars</b> (concept ownership)</td>
+      <td><span class="kw">gif wars · play gif wars online · gif wars game</span></td>
+      <td>How-to articles (Surf Office, Confetti, a 2020 nonprofit blog post). <b>Zero playable products.</b> Old gifwars.party is dead.</td>
+      <td>A page that explains the rules <em>and</em> starts a room in one click beats every "here's how to run it in Slack" article on satisfaction. Modest volume, near-zero competition, perfect fit.</td>
+    </tr>
+    <tr>
+      <td><b>GIF party game</b> (category term)</td>
+      <td><span class="kw">gif party game · gif game online free</span></td>
+      <td>A 12-rating mobile app with an empty website, GIPHY/Tenor noise, scattered micro-competitors.</td>
+      <td>This is the category GIF Mania should simply <em>be</em> the answer for. Needs explicit "party game" entity signals to beat the GIF-collection noise.</td>
+    </tr>
+    <tr>
+      <td><b>No-download party</b></td>
+      <td><span class="kw">party games no app download · browser party games free</span></td>
+      <td>Almost 100% indie one-person sites (gamebuddies.io holds 3 slots with a homepage + blog + games page).</td>
+      <td>Homepage-title territory — the phrases describe GIF Mania literally. Easiest head-adjacent terms found anywhere in the research.</td>
+    </tr>
+    <tr>
+      <td><b>GIF game for meetings</b></td>
+      <td><span class="kw">gif game for zoom · icebreaker gif game · gif battle for work</span></td>
+      <td>Giphy explore pages (irrelevant), one 2021 blog post, activity-instruction pages. Effectively unowned.</td>
+      <td>Tiny volume, but it's <em>exactly</em> the product and nearly free to take. This is the honest entry into the work/remote use case.</td>
+    </tr>
+  </table></div>
+
+  <h3>Tier 2 — contend next <span class="pill acid">3–9 months</span></h3>
+  <div class="tablewrap"><table>
+    <tr><th>Cluster</th><th>Example queries</th><th>Who ranks today</th><th>Realistic path</th></tr>
+    <tr>
+      <td><b>Free Jackbox alternative</b> — the strategic core</td>
+      <td><span class="kw">free jackbox alternative · games like jackbox free no download · phone party games like jackbox</span></td>
+      <td>CBR's big listicle on top; below it, indie products (GameBuddies, Gaming Couch, PadlessBox — published Mar 2026, ranking by Aug). Every serious competitor runs a dedicated <code>/jackbox-alternative</code> page.</td>
+      <td>Highest commercial intent in the whole map and a proven fast-rank space. Landing page + listicle + ~15 inclusion links → long-tail variants in 1–3 months, head phrase contention in 6–9.</td>
+    </tr>
+    <tr>
+      <td><b>GIF battle</b></td>
+      <td><span class="kw">gif battle game · gif battle</span></td>
+      <td>Two live but unmarketed indies: gifbattles.com (exact-match domain) and gifsplash.nl (requires login).</td>
+      <td>Cover the phrase on the /gif-wars page + a few links. Top-5 realistic; #1 uncertain against the exact-match domain.</td>
+    </tr>
+    <tr>
+      <td><b>Kahoot for parties</b> (the only Kahoot angle worth having)</td>
+      <td><span class="kw">kahoot alternatives for adults · party games like kahoot</span></td>
+      <td>Small party products (wiwo, CrowdParty, Weekend) with honest comparison pages.</td>
+      <td>One honest-comparison page ranks in 3–6 months. <b>Skip the Kahoot head terms</b> — education intent, SaaS-owned, wrong audience.</td>
+    </tr>
+    <tr>
+      <td><b>Projector / big screen</b></td>
+      <td><span class="kw">games to play on a projector with friends · party games for tv · games where phone is the controller</span></td>
+      <td>Only PadlessBox competes on party intent amid hardware-review noise.</td>
+      <td>TV mode makes this a genuine product fit — one use-case page.</td>
+    </tr>
+    <tr>
+      <td><b>Remote teams (long tail only)</b></td>
+      <td><span class="kw">remote team games free no signup · team building games no download · zoom party games no app</span></td>
+      <td>The "free + no signup/no download" modifiers flip the SERP from content fortresses to products (TeamRetro's use-case page, teamgames.club).</td>
+      <td>A /work use-case page mirroring TeamRetro's pattern. This is the crack in the team-building wall.</td>
+    </tr>
+  </table></div>
+
+  <h3>Tier 3 — don't chase directly <span class="pill red">placement or skip</span></h3>
+  <ul>
+    <li><span class="kw">virtual team building games free · icebreaker games for zoom · games to play with coworkers · quick team meeting games</span> — funded-SaaS content fortress (teambuilding.com, Asana, Deel, Geekbot). <b>Path: get listed in their roundups</b>, which do include tiny free tools.</li>
+    <li><span class="kw">kahoot alternative(s)</span> (head) — big volume, wrong intent (teachers hitting the 10-player cap). A searcher who wants Blooket bounces off GIF Mania.</li>
+    <li><span class="kw">cards against humanity online free</span> — navigational intent for literal CAH clones; legally messy neighborhood. CAH is a <em>positioning phrase</em> for us, not a keyword target.</li>
+    <li><span class="kw">meme party game online</span> — Make It Meme owns the ecosystem (game portals, streamers). Catch long tail later via one comparison mention, don't lead with it.</li>
+  </ul>
+</section>
+
+<section id="pages">
+  <h2><span class="num">04</span>PAGES TO BUILD</h2>
+  <p class="sub">Every new marketing page is a <b>static Vite entry like home.html</b> — not an SPA route. Google's JS rendering is queued and flaky for new domains, and AI crawlers (ChatGPT/Perplexity) don't execute JS at all; static pages are visible to both. Each page needs a carve-out from the Caddy noindex matcher, a sitemap entry, and cross-links from the homepage footer.</p>
+
+  <div class="card">
+    <h3>Month 1 — the two pages that matter <span class="pill cyan">phase 1</span></h3>
+    <ul>
+      <li><b><code>/gif-wars</code> — "Play GIF Wars Online — Free, No App Needed."</b> Matches the informational SERP (what GIF Wars is, the classic chat-game rules, how to run it in Slack/WhatsApp manually) then beats it: "or skip the setup — GIF Mania runs it for you," with a start-a-game CTA. Targets the whole Tier-1 GIF Wars + gif battle cluster. The framing that wins: <em>"people keep explaining how to play GIF Wars manually — here's the site that just runs it."</em></li>
+      <li><b><code>/jackbox-alternative</code> — the commercial page.</b> Template proven by Gaming Couch: hero + play CTA, 8-row honest comparison table (free vs $10+/pack, browser vs Steam, 20 vs 8 players, no app, no account for players), a fair "what Jackbox does better" section, FAQ with schema, trademark disclaimer footer. Targets the free-Jackbox cluster + <span class="kw">phone party games like jackbox</span>.</li>
+      <li><b>Homepage tune</b> (waiting on the copy options page — dilemma #2 in §02): keyword-bearing h1/subhead and title — work "free browser party game", "no app download", "GIF" into real heading copy without killing the voice.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Month 2 — use-case pages <span class="pill cyan">phase 2</span></h3>
+    <ul>
+      <li><b><code>/work</code></b> — "The GIF game for team meetings — free, no signup." Targets <span class="kw">remote team games free no signup</span>, <span class="kw">gif game for zoom</span>, <span class="kw">icebreaker gif game</span>. Sections per context: Zoom/Meet/Teams remote, in-office projector, hybrid. Mirrors TeamRetro's use-case-page pattern (the one product-page format that ranks in the work space).</li>
+      <li><b><code>/projector</code></b> (or <code>/big-screen</code>) — "Party games to play on a projector or TV." Leverages TV mode; targets the projector/big-screen/phone-as-controller cluster.</li>
+      <li><b><code>/kahoot-alternative-for-parties</code></b> — honest comparison, party angle only, wiwo-style. Explicitly concedes the classroom to Kahoot to keep intent clean.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Month 3+ — only if the data says so <span class="pill gray">phase 3</span></h3>
+    <ul>
+      <li><b>One listicle:</b> "10 free party games like Jackbox (no download)" — genuinely useful, real competitors included, GIF Mania first. Listing peers matters: this niche visibly links reciprocally, and a listicle can catch the broad <span class="kw">games like jackbox</span> queries the landing page can't.</li>
+      <li><b>Occasion pages</b> (birthdays, family game night, classrooms-lite) — only for occasions GSC shows real impressions for.</li>
+      <li><b>Hebrew marketing page</b> — parked by decision (English first), but noted: the product fully supports Hebrew, competition there is near zero, and the page's own JSON-LD already advertises <code>he</code>. Cheap win when ready.</li>
+    </ul>
+  </div>
+
+  <p class="quiet">Explicitly not doing: a weekly blog (unsustainable at a few hours/month and unnecessary in these SERPs), programmatic page generation at scale (helpful-content-classifier risk), Web Stories (deprecated), Slack-bot content (different product).</p>
+</section>
+
+<section id="links">
+  <h2><span class="num">05</span>LINKS &amp; LISTINGS</h2>
+  <p class="sub">A new domain needs other sites to vouch for it. The research found this niche's link economy is mostly <b>listicle inclusions</b> — and the lists are reachable. Budget: ~1–2 hours/month of outreach, highest leverage first.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Target</th><th>What</th><th>Why it's worth it</th></tr>
+    <tr><td><b>AlternativeTo</b></td><td>Create the GIF Mania listing; file under Jackbox Party Pack + Kahoot alternatives.</td><td>Jackbox's page has 26 entries with 1–8 likes each — a handful of likes puts GIF Mania top-5. Free, permanent, ranks for "alternative" queries itself. <b>Do first.</b></td></tr>
+    <tr><td><b>CBR's "25 Free Jackbox Alternatives"</b></td><td>Pitch inclusion (it's updated regularly and already lists tiny indie browser games).</td><td>The strongest page in the whole cluster; one inclusion = a real editorial link + referral traffic.</td></tr>
+    <tr><td><b>Indie roundups</b> (SlidesWith, gamesocial.io, dinogame.gg, summarizemeeting's 30-item list, PadlessBox, GameBuddies)</td><td>Short personal pitch each; offer to list them back in our month-3 listicle.</td><td>This niche demonstrably links reciprocally; each inclusion is cheap and compounds.</td></tr>
+    <tr><td><b>Team-building roundups</b> (teambuilding.com, SlidesWith, Surf Office, Gather, Geekbot)</td><td>Pitch for their yearly refreshes — angle: "free, no signup, works over screen-share".</td><td>The only way into the work-keywords fortress; they do include small free tools.</td></tr>
+    <tr><td><b>Launch platforms</b> (Product Hunt, a Show HN)</td><td>One well-prepared launch when the landing pages are live.</td><td>Links are mostly nofollow but the citations, traffic spike, and downstream blog mentions seed the link graph. Optional but high upside for a day of prep.</td></tr>
+    <tr><td><b>Reddit / communities</b></td><td>Genuine participation where people ask for party-game recommendations (r/partygames etc.) — answer threads honestly, no spam.</td><td>Reddit ranks in most of these SERPs; a recommended-by-others thread outranks anything we write. Slow, authentic-only.</td></tr>
+  </table></div>
+</section>
+
+<section id="legal">
+  <h2><span class="num">06</span>TRADEMARK: "KAHOOT MEETS CARDS AGAINST HUMANITY"</h2>
+  <p class="sub">Researched against real enforcement history, not just first principles. Short version: <b>the phrase is fine — keep using it.</b></p>
+  <ul>
+    <li><b>Nominative fair use</b> protects naming a competitor to describe your product ("alternative to X", "X meets Y") as long as it's accurate, uses no more of the mark than needed, and doesn't imply endorsement. The entire alternatives industry runs on this — Mentimeter, Wooclap and a dozen others operate dedicated anti-Kahoot landing pages unmolested, and Jackbox itself publishes a "games like Cards Against Humanity" listicle.</li>
+    <li><b>What CAH actually enforces:</b> lookalike <em>products</em> — the black-and-white card trade dress and confusable names ("Crabs Adjust Humidity" lost at the TTAB; "Humanity Hates Trump" got C&amp;D'd). Never comparative mentions.</li>
+    <li><b>What Kahoot enforces:</b> logo/wordmark styling. No case found against "Kahoot alternative" content.</li>
+    <li><b>House rules:</b> plain-text names only (no logos, no card-style visuals); accurate comparisons; a small footer disclaimer on comparison pages ("Kahoot! and Cards Against Humanity are trademarks of their respective owners; GIF Mania is not affiliated"); never in the domain or product name. Bonus: "Kahoot meets Cards Against Humanity" is an essentially unclaimed phrase in Google — using it consistently means owning it.</li>
+  </ul>
+</section>
+
+<section id="measure">
+  <h2><span class="num">07</span>THE MEASUREMENT LOOP</h2>
+  <p class="sub">This is what makes the process continuous instead of a one-shot bet. Two data sources, one monthly ritual.</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>Search Console = demand side</h3>
+      <p>The only source of query → impressions/CTR/position data (PostHog can never see queries — Google strips them). It answers: <b>which keywords are we starting to appear for, and which pages under-convert their impressions?</b> Bing WMT adds exact volume numbers and the AI-search ecosystem.</p>
+    </div>
+    <div class="card">
+      <h3>PostHog = outcome side</h3>
+      <p>Already wired. Define one funnel per landing page: <b>organic landing → game created → game started → 4+ players joined</b>. It answers: <b>which keywords bring people who actually host games?</b> Join the two by landing-page URL in a simple monthly spreadsheet — no paid connector needed at this scale.</p>
+    </div>
+  </div>
+  <h3>The monthly 30 minutes</h3>
+  <ol>
+    <li><b>GSC Queries report:</b> find terms sitting at position 5–20 with impressions — those are the "almost ranking" pages; improving them beats writing new ones.</li>
+    <li><b>PostHog funnels:</b> which landing pages turn visitors into hosts? A keyword that ranks but doesn't convert gets demoted; one that converts gets a better page.</li>
+    <li><b>Decide one action:</b> improve an almost-ranking page, ship the next planned page, or do one outreach batch. One action per month is the sustainable cadence.</li>
+    <li><b>Quarterly:</b> refresh dates/content on comparison pages (freshness visibly matters in these SERPs) and re-rank the keyword map with real volume data.</li>
+  </ol>
+</section>
+
+<section id="paid">
+  <h2><span class="num">08</span>PAID LEVERS — WHAT MONEY WOULD BUY</h2>
+  <p class="sub">Per Jon's call: free-only for now, with the paid menu priced against expected outcomes so the decision can be revisited wisely. Ordered by value-for-money.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Lever</th><th>Cost</th><th>Expected outcome</th><th>When it's worth it</th></tr>
+    <tr><td><b>Google Ads keyword validation</b></td><td>~$50–100, one-off</td><td>Buy ~100–200 clicks across candidate keywords, measure games-created per keyword in PostHog. Buys <b>certainty about intent</b> before investing content — e.g. proves whether "kahoot alternative" traffic actually bounces.</td><td>Before month-2 pages, if you want to de-risk the page order. Skippable — the SERP evidence is already fairly strong.</td></tr>
+    <tr><td><b>Ahrefs Starter / Semrush</b></td><td>~$29–140/mo</td><td>Rank tracking, competitor keyword gaps, real difficulty scores. Replaces SERP-eyeballing with numbers.</td><td>Not before ~1k organic clicks/mo. The free tier (AWT + GSC + Bing) covers everything this plan needs now.</td></tr>
+    <tr><td><b>Sponsored listicle placements</b></td><td>~$50–500 each</td><td>Guaranteed inclusion + a link from roundups that sell slots.</td><td>Only for pages that look editorial and already rank for a target query; check for <code>nofollow/sponsored</code> tags first (those still bring referrals, not rankings). Free pitches first — this niche accepts them.</td></tr>
+    <tr><td><b>Paid outreach/PR services</b></td><td>$500+/mo</td><td>Volume link-building of variable quality; real risk of spam-neighborhood links that hurt.</td><td>Skip at this stage, full stop.</td></tr>
+  </table></div>
+</section>
+
+<section id="timeline">
+  <h2><span class="num">09</span>HONEST EXPECTATIONS</h2>
+  <ul>
+    <li><b>Weeks 1–2 after GSC:</b> indexed; brand query starts resolving to the right site.</li>
+    <li><b>Weeks 4–8:</b> first impressions on Tier-1 long tail; first trickle of clicks. New domains get throttled early — this phase feels slow for everyone.</li>
+    <li><b>Months 3–6:</b> Tier-1 terms reaching page 1 (the GIF Wars cluster has no product competition to speak of); jackbox-alternative long-tail variants ranking; low hundreds of organic visits/month.</li>
+    <li><b>Months 6–9:</b> contention on <span class="kw">free jackbox alternative</span> head terms if the inclusion links landed.</li>
+    <li><b>Unknowns stated plainly:</b> absolute volumes are unverified until GSC/Bing data arrives (the GIF Wars cluster might be small — but five companies independently writing content for it says it isn't zero). And a paid Steam competitor ("The GIF Game", July 2026) is about to market the same concept — <b>"free, in the browser, no app"</b> is the positioning to hammer before their push defines the category.</li>
+  </ul>
+</section>
+
+<hr class="sp" />
+<p class="quiet">Research basis: code audit of frontend/deploy; live SERP sweeps (Aug 2026, US-flavored) across the GIF-wars, Kahoot/Jackbox-alternative, and party/team clusters; trademark enforcement history (INTA, TTAB, WIPO records); 2026-current tooling verification (GSC, Bing WMT, Ahrefs Webmaster Tools, Keyword Planner free tiers). No keyword-volume tool access — volumes to be validated with GSC/Bing data as it arrives.</p>
+
+</main>
+</body>
+</html>
