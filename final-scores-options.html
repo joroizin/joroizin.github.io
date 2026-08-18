@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GIF Mania — Final scores ceremony options</title>
+<style>
+  @font-face {
+    font-family: 'Bungee';
+    font-weight: 400;
+    src: url('../frontend/src/assets/fonts/bungee-400-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Rubik';
+    font-weight: 300 900;
+    src: url('../frontend/src/assets/fonts/rubik-latin.woff2') format('woff2');
+  }
+
+  :root {
+    --font-display: 'Bungee', 'Rubik', sans-serif;
+    --font-body: 'Rubik', ui-sans-serif, system-ui, sans-serif;
+    --color-night: #0b0820;
+    --color-ink: #151033;
+    --color-panel: #1e1745;
+    --color-panel-2: #292058;
+    --color-line: #3b3178;
+    --color-lilac: #a89ae0;
+    --color-fog: #e9e5ff;
+    --color-magenta: #ff3d8b;
+    --color-magenta-deep: #c4145e;
+    --color-cyan: #26e6ff;
+    --color-acid: #ffe14d;
+    --color-mint: #4dffa6;
+    --shadow-pop: 4px 4px 0 0 rgb(0 0 0 / 0.9);
+    --ease-pop: cubic-bezier(0.22, 1.6, 0.36, 1);
+    --ease-rise: cubic-bezier(0.22, 1.4, 0.36, 1);
+  }
+
+  * { box-sizing: border-box; }
+  html {
+    font-family: var(--font-body);
+    background: var(--color-night);
+    color: var(--color-fog);
+  }
+  body { margin: 0; min-height: 100dvh; -webkit-font-smoothing: antialiased; }
+
+  .page {
+    background:
+      radial-gradient(60rem 40rem at 85% -10%, rgb(255 61 139 / 0.16), transparent 60%),
+      radial-gradient(50rem 34rem at -10% 110%, rgb(38 230 255 / 0.12), transparent 60%),
+      var(--color-night);
+    min-height: 100dvh;
+    padding: 3rem 1rem 6rem;
+  }
+  .page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgb(233 229 255 / 0.05) 1px, transparent 1.5px);
+    background-size: 22px 22px;
+  }
+
+  .wrap { max-width: 1100px; margin: 0 auto; position: relative; }
+  .font-display { font-family: var(--font-display); letter-spacing: 0.01em; }
+
+  h1 { font-family: var(--font-display); font-size: clamp(1.6rem, 4vw, 2.6rem); margin: 0 0 0.6rem; }
+  h1 .hi { color: var(--color-acid); }
+  .intro { color: var(--color-lilac); max-width: 68ch; line-height: 1.55; margin: 0 0 1.2rem; }
+  .intro b { color: var(--color-fog); }
+  .howto { font-size: 0.85rem; color: var(--color-lilac); margin: 0 0 2rem; }
+  .howto b { color: var(--color-cyan); }
+
+  /* comparison table */
+  .compare {
+    font-size: 0.85rem;
+    margin: 0 0 3.5rem;
+    background: var(--color-panel);
+    border: 3px solid #000;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-pop);
+    overflow: hidden;
+    display: inline-block;
+  }
+  .compare table { border-collapse: collapse; }
+  .compare th, .compare td { padding: 0.55rem 1.1rem; text-align: start; }
+  .compare thead th { font-family: var(--font-display); font-size: 0.7rem; color: var(--color-lilac); border-bottom: 2px solid var(--color-line); }
+  .compare tbody tr + tr td { border-top: 1px solid rgb(59 49 120 / 0.5); }
+  .compare td:nth-child(3) { font-variant-numeric: tabular-nums; color: var(--color-mint); font-weight: 700; }
+  .compare td:nth-child(4) { color: var(--color-acid); letter-spacing: 0.1em; }
+  .compare tr.today td { color: var(--color-lilac); }
+  .compare tr.today td:nth-child(3), .compare tr.today td:nth-child(4) { color: var(--color-magenta); }
+  .compare .opt { font-family: var(--font-display); font-size: 0.8rem; }
+
+  /* option sections */
+  .option { margin-bottom: 4.5rem; }
+  .opt-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.7rem 1rem; margin-bottom: 0.35rem; }
+  .opt-head h2 { font-family: var(--font-display); font-size: 1.45rem; margin: 0; }
+  .opt-head h2 .tag { color: var(--color-cyan); }
+  .badge {
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+    background: var(--color-ink); border: 2px solid #000; border-radius: 0.6rem;
+    padding: 0.25rem 0.6rem; color: var(--color-mint); box-shadow: 2px 2px 0 0 rgb(0 0 0 / 0.9);
+  }
+  .badge.tone { color: var(--color-acid); }
+  .opt-desc { color: var(--color-lilac); line-height: 1.55; max-width: 75ch; margin: 0.3rem 0 0; }
+  .opt-desc b { color: var(--color-fog); }
+  .notes { color: var(--color-lilac); font-size: 0.85rem; line-height: 1.6; margin: 1rem 0 0; padding-inline-start: 1.2rem; max-width: 80ch; }
+  .notes li { margin-bottom: 0.25rem; }
+  .notes b { color: var(--color-fog); }
+
+  /* ---------- the stage ---------- */
+  .stage {
+    position: relative;
+    margin-top: 1rem;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background:
+      radial-gradient(50rem 30rem at 70% -10%, rgb(255 61 139 / 0.14), transparent 60%),
+      radial-gradient(40rem 26rem at 10% 110%, rgb(38 230 255 / 0.10), transparent 60%),
+      var(--color-ink);
+    border: 3px solid #000;
+    border-radius: 1.2rem;
+    box-shadow: var(--shadow-pop);
+    overflow: hidden;
+  }
+  .stage-inner {
+    position: absolute; inset: 0;
+    padding: 1.4rem;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .stage-inner.shaken { animation: drumShake 0.28s linear; }
+  .replay {
+    position: absolute; top: 0.7rem; inset-inline-end: 0.7rem; z-index: 60;
+    font-family: var(--font-body); font-weight: 800; font-size: 0.72rem;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    background: var(--color-ink); color: var(--color-lilac);
+    border: 2px solid #000; border-radius: 0.6rem; padding: 0.3rem 0.7rem;
+    cursor: pointer; box-shadow: 2px 2px 0 0 rgb(0 0 0 / 0.9);
+  }
+  .replay:hover { color: var(--color-fog); }
+
+  .eyebrow {
+    margin: 0; font-size: 0.78rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.3em; color: var(--color-lilac);
+    animation: rise 0.45s var(--ease-rise) both;
+  }
+
+  .dim {
+    position: absolute; inset: 0; background: rgb(4 2 16 / 0.58);
+    opacity: 0; transition: opacity 0.45s; pointer-events: none; z-index: 2;
+  }
+  .dim.show { opacity: 1; }
+  .dim.deep { background: rgb(4 2 16 / 0.78); }
+  .drum1 { animation: drumShake 0.18s linear infinite; }
+  .drum2 { animation: drumShake 0.09s linear infinite; }
+
+  .confetti { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 50; }
+  .confetti-piece { position: absolute; top: -20px; border-radius: 2px; animation: confettiFall linear both; }
+  .flash {
+    position: absolute; inset: 0; background: #fff; opacity: 0;
+    animation: flashOut 0.5s ease-out both; pointer-events: none; z-index: 40;
+  }
+
+  /* ---------- keyframes ---------- */
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes pop { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: none; } }
+  @keyframes chipIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 0.38; transform: none; } }
+  @keyframes slamIn {
+    0% { opacity: 0; transform: scale(2.6); }
+    60% { opacity: 1; transform: scale(0.94); }
+    80% { transform: scale(1.05); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes stampIn {
+    0% { opacity: 0; transform: scale(1.4) rotate(-2deg); }
+    65% { opacity: 1; transform: scale(0.97) rotate(0.6deg); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes stampInAlt {
+    0% { opacity: 0; transform: scale(1.4) rotate(2deg); }
+    65% { opacity: 1; transform: scale(0.97) rotate(-0.6deg); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes crownDrop {
+    0% { opacity: 0; transform: translateY(-110px); }
+    55% { opacity: 1; transform: translateY(6px); }
+    75% { transform: translateY(-8px); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes wobble { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(5deg); } }
+  @keyframes drumShake {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(1.5px, -1px); }
+    50% { transform: translate(-1.5px, 1px); }
+    75% { transform: translate(1px, 1.5px); }
+    100% { transform: translate(0, 0); }
+  }
+  @keyframes flashOut { 0% { opacity: 0.85; } 100% { opacity: 0; } }
+  @keyframes confettiFall { to { transform: translate3d(var(--sway), 660px, 0) rotate(var(--spin)); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes dotPulse { 0%, 100% { opacity: 0.25; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.15); } }
+  @keyframes holdPulse { 0%, 100% { opacity: 0.5; transform: scale(1); } 50% { opacity: 1; transform: scale(1.25); } }
+
+  /* ---------- baseline (today) ---------- */
+  .bs-hero { opacity: 0; text-align: center; margin-top: 0.6rem; }
+  .bs-hero.show { opacity: 1; animation: pop 0.35s var(--ease-pop) both; }
+  .bs-crown { font-size: 3rem; line-height: 1; animation: wobble 2.4s ease-in-out infinite; }
+  .bs-name { font-family: var(--font-display); font-size: 2.8rem; color: var(--color-acid); text-shadow: 4px 4px 0 rgb(0 0 0 / 0.9); margin: 0.1rem 0 0; }
+  .bs-pts { font-family: var(--font-display); font-size: 1.1rem; color: var(--color-cyan); margin: 0.2rem 0 0; }
+  .bs-list { list-style: none; margin: 0.9rem 0 0; padding: 0; width: min(28rem, 90%); display: flex; flex-direction: column; gap: 0.28rem; }
+  .bs-row {
+    display: flex; gap: 0.6rem; align-items: center;
+    background: var(--color-panel); border: 2px solid #000; border-radius: 0.7rem;
+    padding: 0.26rem 0.6rem; font-size: 0.82rem;
+    animation: rise 0.4s var(--ease-rise) both;
+  }
+  .bs-row .rk { width: 1.6rem; text-align: center; font-family: var(--font-display); }
+  .bs-row .nm { flex: 1; font-weight: 700; text-align: start; }
+  .bs-row .sc { font-family: var(--font-display); color: var(--color-acid); }
+  .bs-btn {
+    margin-top: 0.8rem; background: var(--color-magenta); color: #fff;
+    font-family: var(--font-display); font-size: 1rem;
+    border: 3px solid #000; border-radius: 0.9rem; padding: 0.45rem 1.6rem;
+    box-shadow: var(--shadow-pop);
+    animation: rise 0.45s var(--ease-rise) 0.8s both;
+  }
+
+  /* ---------- option A: podium build ---------- */
+  .a-wrap { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
+  .a-announce { min-height: 2.3rem; font-family: var(--font-display); font-size: 1.4rem; margin: 0.5rem 0 0; color: var(--color-fog); opacity: 0; }
+  .a-announce.rise { animation: rise 0.4s var(--ease-rise) both; }
+  .a-podium { margin-top: auto; display: flex; align-items: flex-end; gap: 1.2rem; }
+  .a-col { display: flex; flex-direction: column; justify-content: flex-end; align-items: center; width: 12.5rem; }
+  .a-card {
+    opacity: 0; margin-bottom: 0.6rem; text-align: center; width: 100%;
+    background: var(--color-panel); border: 3px solid #000; border-radius: 1rem;
+    padding: 0.55rem 0.9rem; box-shadow: var(--shadow-pop); position: relative;
+  }
+  .a-card.show { opacity: 1; animation: pop 0.4s var(--ease-pop) both; }
+  .a-gold .a-card { border-color: var(--color-acid); }
+  .a-gold .a-card.show { animation: slamIn 0.5s cubic-bezier(0.22, 1.3, 0.36, 1) both; }
+  .a-card-name { font-family: var(--font-display); font-size: 1.3rem; margin: 0; }
+  .a-gold .a-card-name { font-size: 1.65rem; color: var(--color-acid); }
+  .a-card-pts { margin: 0.12rem 0 0; color: var(--color-cyan); font-family: var(--font-display); font-size: 0.95rem; }
+  .a-crown { display: block; font-size: 2.5rem; line-height: 1; margin-bottom: 0.1rem; opacity: 0; }
+  .a-card.show .a-crown { animation: crownDrop 0.65s var(--ease-rise) 0.12s both; }
+  .a-block {
+    width: 100%; height: 0; position: relative;
+    border: 3px solid #000; border-bottom: none; border-radius: 0.8rem 0.8rem 0 0;
+    display: flex; align-items: flex-start; justify-content: center;
+    transition: height 0.6s cubic-bezier(0.22, 1.2, 0.36, 1);
+  }
+  .a-block.up { height: var(--h); }
+  .a-num { font-family: var(--font-display); font-size: 1.9rem; color: rgb(0 0 0 / 0.55); margin-top: 0.15rem; opacity: 0; transition: opacity 0.3s 0.3s; }
+  .a-block.up .a-num { opacity: 1; }
+  .a-gold .a-block { background: linear-gradient(180deg, var(--color-acid), #d9b400); }
+  .a-silver .a-block { background: linear-gradient(180deg, #dfe3ff, #9aa0d8); }
+  .a-bronze .a-block { background: linear-gradient(180deg, #ffb46b, #c96f2a); }
+  .a-field { margin: 0.9rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; min-height: 2.1rem; }
+  .a-field .a-chip { opacity: 0; }
+  .a-field.show .a-chip { animation: rise 0.4s var(--ease-rise) both; }
+  .a-chip {
+    background: var(--color-panel); border: 2px solid #000; border-radius: 0.7rem;
+    padding: 0.28rem 0.7rem; font-size: 0.78rem; font-weight: 700;
+    color: var(--color-lilac); box-shadow: 2px 2px 0 0 rgb(0 0 0 / 0.9);
+  }
+  .a-spot {
+    position: absolute; left: 50%; top: -5rem; width: 26rem; height: 120%;
+    transform: translateX(-50%); pointer-events: none; z-index: 3;
+    background: radial-gradient(ellipse 50% 45% at 50% 30%, rgb(255 225 77 / 0.30), transparent 70%);
+    opacity: 0; transition: opacity 0.45s;
+  }
+  .a-spot.show { opacity: 1; }
+
+  /* ---------- option B: spotlight roulette ---------- */
+  .b-grid {
+    flex: 1; width: 100%; max-width: 46rem; margin: 0 auto;
+    display: flex; flex-wrap: wrap; gap: 0.8rem; align-content: center; justify-content: center;
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .b-grid.gone { opacity: 0; transform: scale(0.92); }
+  .b-chip {
+    opacity: 0.38;
+    font-family: var(--font-display); font-size: 1.25rem;
+    background: var(--color-panel); border: 3px solid #000; border-radius: 1rem;
+    padding: 0.65rem 1.3rem; box-shadow: var(--shadow-pop);
+    transition: opacity 0.12s, transform 0.12s, border-color 0.12s, box-shadow 0.12s;
+    animation: chipIn 0.35s var(--ease-pop) backwards;
+  }
+  .b-chip.lit {
+    opacity: 1; border-color: var(--color-acid); transform: scale(1.12);
+    box-shadow: 0 0 22px rgb(255 225 77 / 0.35), 2px 2px 0 0 rgb(0 0 0 / 0.9);
+  }
+  .b-reveal {
+    position: absolute; inset: 0; z-index: 5;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+  }
+  .b-reveal.show { opacity: 1; }
+  .b-rays {
+    position: absolute; width: 34rem; height: 34rem; border-radius: 50%;
+    background: repeating-conic-gradient(rgb(255 225 77 / 0.16) 0 10deg, transparent 10deg 22deg);
+    -webkit-mask: radial-gradient(closest-side, #000 30%, transparent 72%);
+    mask: radial-gradient(closest-side, #000 30%, transparent 72%);
+    animation: spin 9s linear infinite;
+  }
+  .b-crown { font-size: 3.2rem; line-height: 1; position: relative; }
+  .b-reveal.show .b-crown { animation: crownDrop 0.6s var(--ease-rise) both; }
+  .b-name {
+    position: relative; font-family: var(--font-display); font-size: 3.2rem;
+    color: var(--color-acid); text-shadow: 4px 4px 0 rgb(0 0 0 / 0.9); margin: 0.1rem 0 0;
+  }
+  .b-reveal.show .b-name { animation: slamIn 0.45s cubic-bezier(0.22, 1.2, 0.36, 1) 0.05s both; }
+  .b-pts { position: relative; font-family: var(--font-display); color: var(--color-cyan); font-size: 1.3rem; margin: 0.3rem 0 0; }
+  .b-tag {
+    position: relative; margin-top: 0.7rem; opacity: 0;
+    background: var(--color-acid); color: var(--color-night);
+    font-family: var(--font-display); font-size: 0.95rem;
+    border: 3px solid #000; border-radius: 0.8rem; padding: 0.3rem 1rem;
+    box-shadow: var(--shadow-pop);
+  }
+  .b-reveal.show .b-tag { animation: pop 0.35s var(--ease-pop) 0.9s both; }
+  .b-list {
+    position: absolute; bottom: 0.9rem; left: 0; right: 0; z-index: 6;
+    display: flex; flex-wrap: wrap; gap: 0.45rem; justify-content: center;
+    padding: 0 1rem; opacity: 0; transform: translateY(16px);
+    transition: opacity 0.45s, transform 0.45s;
+  }
+  .b-list.show { opacity: 1; transform: none; }
+  .b-mini {
+    font-size: 0.72rem; font-weight: 700; color: var(--color-lilac);
+    background: var(--color-panel); border: 2px solid #000; border-radius: 0.6rem;
+    padding: 0.22rem 0.55rem;
+  }
+
+  /* ---------- option C: score race ---------- */
+  .c-callout { min-height: 1.8rem; font-family: var(--font-display); font-size: 1.2rem; margin: 0.3rem 0 0; opacity: 0; }
+  .c-callout.show { opacity: 1; animation: rise 0.4s var(--ease-rise) both; }
+  .c-rows { width: 100%; max-width: 52rem; margin: 0.6rem auto 0; flex: 1; display: flex; flex-direction: column; gap: 0.5rem; justify-content: center; }
+  .c-row {
+    display: grid; grid-template-columns: 2.1rem 7.5rem 1fr 4.2rem;
+    align-items: center; gap: 0.7rem; opacity: 0;
+    animation: rise 0.4s var(--ease-rise) both;
+  }
+  .c-rank { text-align: center; font-family: var(--font-display); font-size: 0.95rem; opacity: 0; }
+  .c-rank.show { opacity: 1; animation: pop 0.3s var(--ease-pop) both; }
+  .c-name { font-weight: 800; font-size: 0.9rem; text-align: start; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .c-track { position: relative; height: 1.65rem; background: var(--color-panel); border: 2px solid #000; border-radius: 0.6rem; }
+  .c-fill {
+    position: relative; height: 100%; width: 0; border-radius: 0.42rem;
+    box-shadow: inset 0 -4px 0 rgb(0 0 0 / 0.25);
+    transition: width 4s;
+  }
+  .race .c-fill { width: var(--w); }
+  .c-tip { position: absolute; inset-inline-end: -0.6rem; top: -1.55rem; font-size: 1.5rem; opacity: 0; }
+  .c-win .c-tip { animation: crownDrop 0.5s var(--ease-rise) both; }
+  .c-score { font-family: var(--font-display); text-align: end; font-size: 0.9rem; color: var(--color-fog); }
+  .c-win .c-name { color: var(--color-acid); }
+  .c-win .c-fill { box-shadow: 0 0 18px rgb(255 225 77 / 0.5), inset 0 -4px 0 rgb(0 0 0 / 0.25); }
+
+  /* ---------- option D: the slam ---------- */
+  .d-stack { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.35rem; transition: opacity 0.25s; }
+  .d-stack.gone { opacity: 0; }
+  .d-line { opacity: 0; font-family: var(--font-display); margin: 0; }
+  .d-l1 { font-size: 2.2rem; }
+  .d-l2 { font-size: 2.9rem; color: var(--color-magenta); }
+  .d-line.stamp { animation: stampIn 0.35s cubic-bezier(0.22, 1.3, 0.36, 1) both; }
+  .d-dots { display: flex; gap: 0.8rem; margin-top: 0.6rem; opacity: 0; }
+  .d-dots.show { opacity: 1; }
+  .d-dots span { font-size: 0.95rem; color: var(--color-lilac); animation: dotPulse 1s ease-in-out infinite; }
+  .d-dots span:nth-child(2) { animation-delay: 0.15s; }
+  .d-dots span:nth-child(3) { animation-delay: 0.3s; }
+  .d-hero { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; z-index: 4; }
+  .d-hero-card { opacity: 0; text-align: center; }
+  .d-hero.show .d-hero-card { opacity: 1; animation: slamIn 0.45s cubic-bezier(0.22, 1.2, 0.36, 1) both; }
+  .d-hero.dock .d-hero-card {
+    animation: none; opacity: 1;
+    transform: translateY(-9.6rem) scale(0.6);
+    transition: transform 0.55s cubic-bezier(0.22, 1.2, 0.36, 1);
+  }
+  .d-crown { font-size: 3.4rem; line-height: 1; opacity: 0; }
+  .d-hero.show .d-crown { animation: crownDrop 0.6s var(--ease-rise) 0.1s both; }
+  .d-hero.dock .d-crown { opacity: 1; animation: wobble 2.4s ease-in-out infinite; }
+  .d-name { font-family: var(--font-display); font-size: 3.8rem; color: var(--color-acid); text-shadow: 5px 5px 0 rgb(0 0 0 / 0.9); margin: 0; }
+  .d-pts { font-family: var(--font-display); font-size: 1.4rem; color: var(--color-cyan); margin: 0.25rem 0 0; }
+  .d-board {
+    position: absolute; inset-inline: 0; margin: 0 auto; bottom: 3.5rem;
+    width: min(28rem, 86%); padding: 0; list-style: none;
+    display: flex; flex-direction: column; gap: 0.28rem; z-index: 3;
+  }
+  .d-board li {
+    opacity: 0; display: flex; gap: 0.6rem; align-items: center;
+    background: var(--color-panel); border: 2px solid #000; border-radius: 0.7rem;
+    padding: 0.22rem 0.6rem; font-size: 0.8rem;
+  }
+  .d-board.show li { animation: stampIn 0.3s cubic-bezier(0.22, 1.3, 0.36, 1) both; }
+  .d-board.show li:nth-child(even) { animation-name: stampInAlt; }
+  .d-board .rk { width: 1.6rem; text-align: center; font-family: var(--font-display); }
+  .d-board .nm { flex: 1; font-weight: 700; text-align: start; }
+  .d-board .sc { font-family: var(--font-display); color: var(--color-acid); }
+  .d-again-wrap { position: absolute; bottom: 0.8rem; left: 0; right: 0; display: flex; justify-content: center; z-index: 3; }
+  .d-again {
+    opacity: 0; background: var(--color-magenta); color: #fff;
+    font-family: var(--font-display); font-size: 0.95rem;
+    border: 3px solid #000; border-radius: 0.9rem; padding: 0.4rem 1.4rem;
+    box-shadow: var(--shadow-pop);
+  }
+  .d-again.show { animation: rise 0.45s var(--ease-rise) both; }
+
+  /* ---------- option E: roll call ---------- */
+  .e-layout { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 15rem; gap: 1.2rem; }
+  .e-main { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+  .e-center { flex: 1; width: 100%; position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .e-card {
+    text-align: center; background: var(--color-panel);
+    border: 3px solid #000; border-radius: 1rem; box-shadow: var(--shadow-pop);
+    padding: 0.7rem 1.5rem; animation: pop 0.3s var(--ease-pop) both;
+  }
+  .e-ord { margin: 0; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: var(--color-lilac); }
+  .e-card h4 { margin: 0.12rem 0 0; font-family: var(--font-display); font-size: 1.5rem; }
+  .e-pts { margin: 0.1rem 0 0; font-family: var(--font-display); color: var(--color-cyan); font-size: 0.9rem; }
+  .e-bronze { border-color: #ffb46b; }
+  .e-bronze h4 { font-size: 1.9rem; }
+  .e-silver { border-color: #dfe3ff; animation: stampIn 0.4s cubic-bezier(0.22, 1.3, 0.36, 1) both; }
+  .e-silver h4 { font-size: 2.1rem; }
+  .e-gold { border-color: var(--color-acid); padding: 1.1rem 2.4rem; animation: slamIn 0.5s cubic-bezier(0.22, 1.2, 0.36, 1) both; }
+  .e-gold h4 { font-size: 2.8rem; color: var(--color-acid); text-shadow: 4px 4px 0 rgb(0 0 0 / 0.9); }
+  .e-crown { font-size: 2.8rem; line-height: 1; animation: crownDrop 0.6s var(--ease-rise) 0.1s both; }
+  .e-hold { font-family: var(--font-display); font-size: 3rem; color: var(--color-lilac); animation: holdPulse 0.9s ease-in-out infinite; }
+  .e-banner {
+    margin-top: 0.7rem; opacity: 0;
+    background: var(--color-acid); color: var(--color-night);
+    font-family: var(--font-display); font-size: 0.95rem;
+    border: 3px solid #000; border-radius: 0.8rem; padding: 0.3rem 1rem;
+    box-shadow: var(--shadow-pop);
+  }
+  .e-banner.show { animation: pop 0.35s var(--ease-pop) both; }
+  .e-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.38rem; justify-content: center; }
+  .e-slot {
+    display: flex; align-items: center; gap: 0.5rem; min-height: 2.15rem;
+    border: 2px dashed var(--color-line); border-radius: 0.7rem;
+    padding: 0.28rem 0.6rem; color: var(--color-line);
+    font-family: var(--font-display); font-size: 0.8rem;
+  }
+  .e-slot .ghost { opacity: 0.7; }
+  .e-slot.filled { border: 2px solid #000; background: var(--color-panel); color: var(--color-fog); animation: pop 0.3s var(--ease-pop) both; }
+  .e-slot.glow { border-color: var(--color-acid); box-shadow: 0 0 16px rgb(255 225 77 / 0.4); }
+  .e-slot .rk { width: 1.5rem; text-align: center; }
+  .e-slot .nm { flex: 1; font-family: var(--font-body); font-weight: 700; text-align: start; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .e-slot .sc { color: var(--color-acid); }
+
+  .footnote { color: var(--color-lilac); font-size: 0.85rem; line-height: 1.6; max-width: 80ch; border-top: 1px solid var(--color-line); padding-top: 1.2rem; }
+  .footnote b { color: var(--color-fog); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="wrap">
+    <h1>Final scores, but make it a <span class="hi">ceremony</span> 👑</h1>
+    <p class="intro">
+      Today the finale lands all at once: crown, champion name, scoreboard and the Play-again button
+      appear <b>inside one second</b>, then the confetti cannons run for eight. Cheerful — but there's no
+      build-up, and the room never gets its collective gasp. Below are five auto-running ceremonies
+      (<b>~7–11s</b>, big screen only, using only data the finish screen already has). Timings shown are
+      suggestions, everything is tunable.
+    </p>
+    <p class="howto">Each stage <b>plays when it scrolls into view</b> — hit <b>↻ replay</b> to watch again. Sound cues are noted per option (a static file can't play the real ones).</p>
+
+    <div class="compare"><table>
+      <thead><tr><th>Show</th><th>Concept</th><th>Runtime</th><th>Suspense</th><th>Everyone gets a beat?</th><th>Build</th></tr></thead>
+      <tbody>
+        <tr class="today"><td class="opt">Today</td><td>everything at once</td><td>~1s</td><td>—</td><td>list only</td><td>—</td></tr>
+        <tr><td class="opt">A</td><td>award-show podium, 3rd → 2nd → 1st</td><td>~9s</td><td>★★★</td><td>field chips + podium</td><td>M</td></tr>
+        <tr><td class="opt">B</td><td>spotlight roulette</td><td>~9s</td><td>★★★★</td><td>chips on stage</td><td>M</td></tr>
+        <tr><td class="opt">C</td><td>score race with photo finish</td><td>~7s</td><td>★★★</td><td>every bar races</td><td>M</td></tr>
+        <tr><td class="opt">D</td><td>title-card slam + stamped standings</td><td>~8s</td><td>★★</td><td>stamped list</td><td>S</td></tr>
+        <tr><td class="opt">E</td><td>full roll call, last place → champion</td><td>~10s</td><td>★★★★★</td><td>every player announced</td><td>M+</td></tr>
+      </tbody>
+    </table></div>
+
+    <!-- ================= BASELINE ================= -->
+    <section class="option" id="baseline">
+      <div class="opt-head">
+        <h2><span class="tag">Baseline</span> — today's screen</h2>
+        <span class="badge">~1s</span>
+        <span class="badge tone">no build-up</span>
+      </div>
+      <p class="opt-desc">A faithful re-creation of the current <b>FinalScoreboard</b> pacing: everything within a second, confetti keeps bursting afterwards.</p>
+      <div class="stage" data-opt="base"></div>
+    </section>
+
+    <!-- ================= OPTION A ================= -->
+    <section class="option" id="opt-a">
+      <div class="opt-head">
+        <h2><span class="tag">Option A</span> — Podium Build</h2>
+        <span class="badge">~9s</span>
+        <span class="badge tone">award-show classic</span>
+      </div>
+      <p class="opt-desc">
+        The field settles in first as a chip row, then the podium builds itself: <b>bronze rises… silver rises…</b>
+        the lights go down, a spotlight hits the empty gold block under a drumroll — and the champion
+        <b>slams onto the top step</b> with a crown drop and confetti.
+      </p>
+      <div class="stage" data-opt="a"></div>
+      <ul class="notes">
+        <li><b>Beats:</b> 0s scores-are-in → 1s field chips → 2s third place → 4s second place → 6s dim + drumroll on the empty gold block → 7.5s champion slam.</li>
+        <li><b>Sound:</b> soft riser under the announcements, drumroll through the dim, the existing reveal sting + a crowd pop on the slam (rides <b>lib/sound.ts</b> cues like the round podium).</li>
+        <li><b>Tie:</b> co-champions share the gold block, cards side by side — same "equal respect" rule as RoundPodium.</li>
+        <li><b>20 players:</b> the field row wraps to two lines of chips; the podium is unchanged.</li>
+        <li><b>Build:</b> new component; CSS height transitions + the reveal-timeline pattern already used by RoundPodium.</li>
+      </ul>
+    </section>
+
+    <!-- ================= OPTION B ================= -->
+    <section class="option" id="opt-b">
+      <div class="opt-head">
+        <h2><span class="tag">Option B</span> — Spotlight Roulette</h2>
+        <span class="badge">~9s</span>
+        <span class="badge tone">max tension</span>
+      </div>
+      <p class="opt-desc">
+        Every player's name is on stage, dimmed. The spotlight <b>jumps from name to name</b>, fast at first,
+        then slower… and slower… drumroll building — until it <b>lands</b>. The stage clears, golden rays spin up,
+        and the champion's name fills the screen. The full standings slide in along the bottom.
+      </p>
+      <div class="stage" data-opt="b"></div>
+      <ul class="notes">
+        <li><b>Beats:</b> 0.5s chips pop in → 1.5s roulette starts (hop every 150ms) → decelerates over ~5s with the shake building → 7s landing: flash, rays, crown, count-up → 8.5s bottom standings strip.</li>
+        <li><b>Sound:</b> a tick per spotlight hop (accelerando in reverse), drumroll layering in, cymbal + fanfare on the landing.</li>
+        <li><b>Fairness note:</b> the hop order is fixed and the landing is predetermined — pure theatre, no RNG in the result.</li>
+        <li><b>Tie:</b> the beam splits and lands on both names at once; both slam center together.</li>
+        <li><b>20 players:</b> chips shrink a size and wrap — a denser wall actually makes the roulette better.</li>
+      </ul>
+    </section>
+
+    <!-- ================= OPTION C ================= -->
+    <section class="option" id="opt-c">
+      <div class="opt-head">
+        <h2><span class="tag">Option C</span> — Score Race</h2>
+        <span class="badge">~7s</span>
+        <span class="badge tone">photo finish</span>
+      </div>
+      <p class="opt-desc">
+        Every player's bar <b>sprints from zero</b> at the gun. The pacing is choreographed so the top two run
+        <b>neck-and-neck</b> until the last half-second, when the champion surges past at the line — crown pops at
+        the bar tip, medals stamp in. The whole room watches their own bar the entire time.
+      </p>
+      <div class="stage" data-opt="c"></div>
+      <ul class="notes">
+        <li><b>Beats:</b> 0.5s rows appear → 1s the race (4s, every score counting up live) → 5.5s photo-finish flash, crown, medals stamp down the ranks.</li>
+        <li><b>Sound:</b> starting gun / whoosh at the launch, rising synth through the race, sting at the finish.</li>
+        <li><b>Honesty note:</b> the "overtake" is easing theatre (the mock also keeps rows in final order; the real build would reorder rows live as bars cross). A true per-round replay would need round history on the finish payload — out of scope per your call.</li>
+        <li><b>Tie:</b> both bars hit the line together and both flash gold.</li>
+        <li><b>20 players:</b> bars thin out but fit; or top 10 race and the rest fade in below.</li>
+      </ul>
+    </section>
+
+    <!-- ================= OPTION D ================= -->
+    <section class="option" id="opt-d">
+      <div class="opt-head">
+        <h2><span class="tag">Option D</span> — The Slam</h2>
+        <span class="badge">~8s</span>
+        <span class="badge tone">cheapest to ship</span>
+      </div>
+      <p class="opt-desc">
+        The current screen's language, turned up to eleven. Title cards <b>stamp in with a screen shake</b>
+        ("AND YOUR" / "CHAMPION IS…"), three dots pulse like a heartbeat… then the name <b>slams in full-screen</b>
+        with a white flash and double confetti, docks upward, and the standings <b>stamp in</b> row by row beneath it.
+      </p>
+      <div class="stage" data-opt="d"></div>
+      <ul class="notes">
+        <li><b>Beats:</b> 0.3s + 1s title stamps → 2s heartbeat dots → 3.3s flash + full-screen slam + count-up → 5.3s hero docks, standings stamp in staggered → 7s Play again rises.</li>
+        <li><b>Sound:</b> a thunk per title stamp, heartbeat under the dots, reveal sting + crowd on the slam, small ticks as rows stamp.</li>
+        <li><b>Tie:</b> both names slam in stacked, slightly smaller — the flash and crown are shared.</li>
+        <li><b>20 players:</b> standings become two columns (or top 8 + "…12 more on your phones").</li>
+        <li><b>Build:</b> smallest — same layout as today, new timeline; closest evolution of the existing component.</li>
+      </ul>
+    </section>
+
+    <!-- ================= OPTION E ================= -->
+    <section class="option" id="opt-e">
+      <div class="opt-head">
+        <h2><span class="tag">Option E</span> — Roll Call</h2>
+        <span class="badge">~10s</span>
+        <span class="badge tone">everyone gets named</span>
+      </div>
+      <p class="opt-desc">
+        The full countdown, <b>last place first</b>. Quick beats for the bottom of the table — each name flashes
+        center stage and files into the standings — then the brakes come on: <b>3rd gets a moment, 2nd gets a
+        drumroll</b>, the lights drop for a long "…" — and the champion detonates. Every single player hears
+        their name on the big screen.
+      </p>
+      <div class="stage" data-opt="e"></div>
+      <ul class="notes">
+        <li><b>Beats:</b> 8th→4th at ~0.6s each (accelerating) → 3.5s bronze card, held → 5s silver card, dim + drumroll → 6.6s deep-dim "…" heartbeat → 8.1s flash, fireworks, gold card + count-up, top slot glows.</li>
+        <li><b>Sound:</b> a tick per quick name, rising drumroll from 2nd place, silence in the "…" hold (that's the gasp), full fanfare on the champion.</li>
+        <li><b>Tie:</b> the champion beat lands two gold cards side by side.</li>
+        <li><b>20 players:</b> ranks below 8th go by in a fast flurry (batched "15th–20th" beats) so runtime stays ~12s; everyone still lands on the list, which scrolls or splits into two columns.</li>
+        <li><b>Most ceremonial of the five</b> — and the most Jackbox: the reveal honors the whole room, not just the winner.</li>
+      </ul>
+    </section>
+
+    <p class="footnote">
+      All five run client-side off the existing <b>game_finished</b> broadcast + snapshot (the scoreboard is
+      already in both) — <b>no backend changes</b>. Reduced motion jumps straight to the settled frame, same rule
+      as RoundPodium. Copy shown is English; real strings go through the i18n catalogs (en/he). Mock data:
+      8 players, champion "Maya" at 7,200. Open this file from the repo so the fonts resolve.
+    </p>
+  </div>
+</div>
+
+<script>
+(() => {
+  const MEDALS = ['🥇', '🥈', '🥉'];
+  const PLAYERS = [
+    { name: 'Maya', score: 7200 },
+    { name: 'Tomzo', score: 6800 },
+    { name: 'Shir', score: 6500 },
+    { name: 'Ben-10', score: 5400 },
+    { name: 'Dana 🍌', score: 4900 },
+    { name: 'Omerrr', score: 4100 },
+    { name: 'Noa', score: 3600 },
+    { name: 'Ari', score: 2800 },
+  ];
+  const fmt = (n) => n.toLocaleString('en-US');
+  const ord = (n) => (n === 1 ? '1st' : n === 2 ? '2nd' : n === 3 ? '3rd' : n + 'th');
+  const rankLabel = (i) => (i < 3 ? MEDALS[i] : String(i + 1));
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const el = (tag, cls, html) => {
+    const n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (html != null) n.innerHTML = html;
+    return n;
+  };
+  const later = (stage, ms, fn) => stage._timers.push(setTimeout(fn, reduced ? 0 : ms));
+  const clearTimers = (stage) => { stage._timers.forEach(clearTimeout); stage._timers = []; };
+
+  const countUp = (node, target, dur = 900) => {
+    if (reduced) { node.textContent = fmt(target); return; }
+    const t0 = performance.now();
+    const tick = (now) => {
+      const k = Math.min(1, (now - t0) / dur);
+      node.textContent = fmt(Math.round(target * (1 - (1 - k) ** 3)));
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const CONF = ['#ff3d8b', '#26e6ff', '#ffe14d', '#4dffa6', '#e9e5ff', '#8f7bff'];
+  const confetti = (stage, n = 110) => {
+    const c = el('div', 'confetti');
+    for (let i = 0; i < n; i++) {
+      const p = el('span', 'confetti-piece');
+      p.style.left = Math.random() * 100 + '%';
+      p.style.width = 6 + Math.random() * 8 + 'px';
+      p.style.height = 8 + Math.random() * 10 + 'px';
+      p.style.background = CONF[i % CONF.length];
+      p.style.animationDuration = 1.6 + Math.random() * 1.6 + 's';
+      p.style.animationDelay = Math.random() * 0.4 + 's';
+      p.style.setProperty('--spin', (Math.random() > 0.5 ? 1 : -1) * (360 + Math.random() * 540) + 'deg');
+      p.style.setProperty('--sway', Math.random() * 160 - 80 + 'px');
+      c.append(p);
+    }
+    stage.append(c);
+    later(stage, 4200, () => c.remove());
+  };
+  const flash = (stage) => {
+    const f = el('div', 'flash');
+    stage.append(f);
+    later(stage, 600, () => f.remove());
+  };
+
+  /* ---------- baseline ---------- */
+  function renderBase(inner, stage) {
+    inner.append(el('p', 'eyebrow', 'AND YOUR CHAMPION IS'));
+    const hero = el('div', 'bs-hero',
+      '<div class="bs-crown">👑</div><h3 class="bs-name">Maya</h3><p class="bs-pts">7,200 pts</p>');
+    inner.append(hero);
+    const list = el('ol', 'bs-list');
+    PLAYERS.forEach((p, i) => {
+      const li = el('li', 'bs-row',
+        `<span class="rk">${rankLabel(i)}</span><span class="nm">${p.name}</span><span class="sc">${fmt(p.score)}</span>`);
+      li.style.animationDelay = 0.5 + i * 0.05 + 's';
+      list.append(li);
+    });
+    inner.append(list);
+    inner.append(el('div', 'bs-btn', 'Play again'));
+    later(stage, 250, () => { hero.classList.add('show'); confetti(stage, 80); });
+    later(stage, 1900, () => confetti(stage, 60));
+    later(stage, 3500, () => confetti(stage, 60));
+  }
+
+  /* ---------- option A: podium build ---------- */
+  function renderA(inner, stage) {
+    const wrap = el('div', 'a-wrap');
+    wrap.append(el('p', 'eyebrow', '🏆 FINAL SCORES'));
+    const ann = el('p', 'a-announce');
+    wrap.append(ann);
+    const podium = el('div', 'a-podium');
+    const spec = [
+      { rk: 2, cl: 'a-silver', h: 110 },
+      { rk: 1, cl: 'a-gold', h: 170 },
+      { rk: 3, cl: 'a-bronze', h: 75 },
+    ];
+    const cols = {};
+    spec.forEach(({ rk, cl, h }) => {
+      const p = PLAYERS[rk - 1];
+      const col = el('div', 'a-col ' + cl);
+      const card = el('div', 'a-card',
+        (rk === 1 ? '<span class="a-crown">👑</span>' : '') +
+        `<p class="a-card-name">${p.name}</p><p class="a-card-pts"><span class="v">0</span> pts</p>`);
+      const block = el('div', 'a-block');
+      block.style.setProperty('--h', h + 'px');
+      block.append(el('span', 'a-num', String(rk)));
+      col.append(card, block);
+      podium.append(col);
+      cols[rk] = { card, block, score: p.score };
+    });
+    wrap.append(podium);
+    const field = el('div', 'a-field');
+    PLAYERS.slice(3).forEach((p, i) => {
+      const c = el('span', 'a-chip', `${ord(i + 4)} · ${p.name} · ${fmt(p.score)}`);
+      c.style.animationDelay = i * 0.08 + 's';
+      field.append(c);
+    });
+    wrap.append(field);
+    const dim = el('div', 'dim');
+    const spot = el('div', 'a-spot');
+    inner.append(wrap, dim, spot);
+
+    const say = (t) => {
+      ann.textContent = t;
+      ann.classList.remove('rise');
+      void ann.offsetWidth;
+      ann.classList.add('rise');
+    };
+    const show = (rk) => {
+      cols[rk].card.classList.add('show');
+      countUp(cols[rk].card.querySelector('.v'), cols[rk].score, 800);
+    };
+    later(stage, 150, () => say('The scores are in…'));
+    later(stage, 900, () => { field.classList.add('show'); say('First — the field.'); });
+    later(stage, 2100, () => say('In third place…'));
+    later(stage, 2500, () => cols[3].block.classList.add('up'));
+    later(stage, 2950, () => show(3));
+    later(stage, 4000, () => say('In second place…'));
+    later(stage, 4400, () => cols[2].block.classList.add('up'));
+    later(stage, 4850, () => show(2));
+    later(stage, 5900, () => {
+      say('And your champion is…');
+      dim.classList.add('show');
+      spot.classList.add('show');
+      wrap.classList.add('drum1');
+    });
+    later(stage, 6500, () => cols[1].block.classList.add('up'));
+    later(stage, 7600, () => {
+      wrap.classList.remove('drum1');
+      dim.classList.remove('show');
+      spot.classList.remove('show');
+      flash(stage);
+      confetti(stage, 150);
+      show(1);
+      say('👑 Maya takes the crown!');
+    });
+  }
+
+  /* ---------- option B: spotlight roulette ---------- */
+  function renderB(inner, stage) {
+    inner.append(el('p', 'eyebrow', '👀 WHO TAKES THE CROWN?'));
+    const grid = el('div', 'b-grid');
+    const chips = PLAYERS.map((p, i) => {
+      const c = el('div', 'b-chip', p.name);
+      c.style.animationDelay = 0.1 + i * 0.06 + 's';
+      grid.append(c);
+      return c;
+    });
+    const reveal = el('div', 'b-reveal',
+      '<div class="b-rays"></div><div class="b-crown">👑</div><h3 class="b-name">Maya</h3>' +
+      '<p class="b-pts"><span class="v">0</span> pts</p><p class="b-tag">CHAMPION OF THE NIGHT</p>');
+    const list = el('div', 'b-list');
+    PLAYERS.forEach((p, i) =>
+      list.append(el('span', 'b-mini', `${rankLabel(i)} ${p.name} · ${fmt(p.score)}`)));
+    inner.append(grid, reveal, list);
+
+    const seq = [1, 4, 2, 7, 5, 3, 6, 0, 2, 5, 7, 3, 1, 6, 4, 2, 0];
+    const gaps = [150, 150, 150, 150, 150, 160, 170, 185, 205, 230, 270, 320, 390, 480, 590, 730, 900];
+    let t = 1300;
+    let prev = null;
+    seq.forEach((idx, i) => {
+      t += gaps[i];
+      later(stage, t, () => {
+        if (prev !== null) chips[prev].classList.remove('lit');
+        chips[idx].classList.add('lit');
+        prev = idx;
+      });
+      if (i === 9) later(stage, t, () => grid.classList.add('drum1'));
+      if (i === 14) later(stage, t, () => { grid.classList.remove('drum1'); grid.classList.add('drum2'); });
+    });
+    later(stage, t + 450, () => {
+      grid.classList.remove('drum1', 'drum2');
+      grid.classList.add('gone');
+      flash(stage);
+      confetti(stage, 140);
+      reveal.classList.add('show');
+      countUp(reveal.querySelector('.v'), 7200, 900);
+    });
+    later(stage, t + 1650, () => list.classList.add('show'));
+  }
+
+  /* ---------- option C: score race ---------- */
+  function renderC(inner, stage) {
+    inner.append(el('p', 'eyebrow', '🏁 THE FINAL STRETCH'));
+    const callout = el('p', 'c-callout');
+    inner.append(callout);
+    const rowsWrap = el('div', 'c-rows');
+    inner.append(rowsWrap);
+    const max = PLAYERS[0].score;
+    const beziers = [
+      'cubic-bezier(.9,.02,.16,1)', 'cubic-bezier(.12,.8,.32,.96)', 'cubic-bezier(.3,.45,.5,.92)',
+      'cubic-bezier(.45,.2,.6,.9)', 'cubic-bezier(.2,.6,.5,.95)', 'cubic-bezier(.5,.25,.65,.9)',
+      'cubic-bezier(.3,.55,.55,.95)', 'cubic-bezier(.4,.35,.6,.95)',
+    ];
+    const bars = ['var(--color-acid)', '#ff3d8b', '#26e6ff', '#4dffa6', '#8f7bff', '#ff9e64', '#26e6ff', '#ff3d8b'];
+    const rows = PLAYERS.map((p, i) => {
+      const row = el('div', 'c-row');
+      row.style.animationDelay = i * 0.06 + 's';
+      const rank = el('span', 'c-rank', rankLabel(i));
+      const name = el('span', 'c-name', p.name);
+      const track = el('div', 'c-track');
+      const fill = el('div', 'c-fill');
+      fill.style.setProperty('--w', (p.score / max) * 96 + 4 + '%');
+      fill.style.transitionTimingFunction = beziers[i];
+      fill.style.background = bars[i];
+      if (i === 0) fill.append(el('span', 'c-tip', '👑'));
+      track.append(fill);
+      const score = el('span', 'c-score', '0');
+      row.append(rank, name, track, score);
+      rowsWrap.append(row);
+      return { row, rank, score, p };
+    });
+    later(stage, 1100, () => {
+      rowsWrap.classList.add('race');
+      rows.forEach((r) => countUp(r.score, r.p.score, 4000));
+    });
+    later(stage, 5400, () => {
+      rows[0].row.classList.add('c-win');
+      confetti(stage, 120);
+      callout.textContent = 'Maya takes it at the line!';
+      callout.classList.add('show');
+    });
+    rows.forEach((r, i) => later(stage, 5600 + i * 100, () => r.rank.classList.add('show')));
+  }
+
+  /* ---------- option D: the slam ---------- */
+  function renderD(inner, stage) {
+    const stack = el('div', 'd-stack');
+    const l1 = el('p', 'd-line d-l1', 'AND YOUR');
+    const l2 = el('p', 'd-line d-l2', 'CHAMPION IS…');
+    const dots = el('p', 'd-dots', '<span>●</span><span>●</span><span>●</span>');
+    stack.append(l1, l2, dots);
+    const hero = el('div', 'd-hero',
+      '<div class="d-hero-card"><div class="d-crown">👑</div><h3 class="d-name">Maya</h3>' +
+      '<p class="d-pts"><span class="v">0</span> pts</p></div>');
+    const board = el('ol', 'd-board');
+    PLAYERS.forEach((p, i) => {
+      const li = el('li', null,
+        `<span class="rk">${rankLabel(i)}</span><span class="nm">${p.name}</span><span class="sc">${fmt(p.score)}</span>`);
+      li.style.animationDelay = i * 0.09 + 's';
+      board.append(li);
+    });
+    const againWrap = el('div', 'd-again-wrap');
+    const again = el('div', 'd-again', '🔁 Play again');
+    againWrap.append(again);
+    inner.append(stack, hero, board, againWrap);
+
+    const shake = () => {
+      inner.classList.remove('shaken');
+      void inner.offsetWidth;
+      inner.classList.add('shaken');
+    };
+    later(stage, 250, () => { l1.classList.add('stamp'); shake(); });
+    later(stage, 1000, () => { l2.classList.add('stamp'); shake(); });
+    later(stage, 1950, () => dots.classList.add('show'));
+    later(stage, 3300, () => {
+      stack.classList.add('gone');
+      flash(stage);
+      hero.classList.add('show');
+      countUp(hero.querySelector('.v'), 7200, 800);
+      confetti(stage, 90);
+    });
+    later(stage, 3600, () => confetti(stage, 90));
+    later(stage, 5300, () => { hero.classList.add('dock'); board.classList.add('show'); });
+    later(stage, 7000, () => again.classList.add('show'));
+  }
+
+  /* ---------- option E: roll call ---------- */
+  function renderE(inner, stage) {
+    const layout = el('div', 'e-layout');
+    const main = el('div', 'e-main');
+    main.append(el('p', 'eyebrow', '🏁 THE FINAL COUNTDOWN'));
+    const center = el('div', 'e-center');
+    main.append(center);
+    const list = el('ol', 'e-list');
+    const slots = PLAYERS.map((_, i) => {
+      const s = el('li', 'e-slot', `<span class="ghost">${i + 1}</span>`);
+      list.append(s);
+      return s;
+    });
+    const dim = el('div', 'dim');
+    layout.append(main, list);
+    inner.append(layout, dim);
+
+    const fill = (i) => {
+      const s = slots[i];
+      s.classList.add('filled');
+      s.innerHTML =
+        `<span class="rk">${rankLabel(i)}</span><span class="nm">${PLAYERS[i].name}</span><span class="sc">${fmt(PLAYERS[i].score)}</span>`;
+    };
+    const showCard = (i, cls) => {
+      center.innerHTML = '';
+      const p = PLAYERS[i];
+      const c = el('div', 'e-card' + (cls ? ' ' + cls : ''),
+        `<p class="e-ord">${ord(i + 1)} place</p><h4>${p.name}</h4><p class="e-pts">${fmt(p.score)}</p>`);
+      center.append(c);
+    };
+
+    [[7, 500], [6, 1150], [5, 1750], [4, 2300], [3, 2800]].forEach(([i, at]) => {
+      later(stage, at, () => { showCard(i); fill(i); });
+    });
+    later(stage, 3500, () => showCard(2, 'e-bronze'));
+    later(stage, 4400, () => fill(2));
+    later(stage, 5000, () => {
+      showCard(1, 'e-silver');
+      dim.classList.add('show');
+      main.classList.add('drum1');
+    });
+    later(stage, 6100, () => fill(1));
+    later(stage, 6600, () => {
+      center.innerHTML = '';
+      center.append(el('div', 'e-hold', '…'));
+      dim.classList.add('deep');
+      main.classList.remove('drum1');
+      main.classList.add('drum2');
+    });
+    later(stage, 8100, () => {
+      main.classList.remove('drum2');
+      dim.classList.remove('show', 'deep');
+      flash(stage);
+      confetti(stage, 160);
+      center.innerHTML = '';
+      const c = el('div', 'e-card e-gold',
+        '<div class="e-crown">👑</div><h4>Maya</h4><p class="e-pts"><span class="v">0</span> pts</p>');
+      center.append(c);
+      countUp(c.querySelector('.v'), 7200, 900);
+      fill(0);
+      slots[0].classList.add('glow');
+    });
+    later(stage, 8900, () => {
+      const b = el('div', 'e-banner', 'CHAMPION OF THE NIGHT');
+      center.append(b);
+      b.classList.add('show');
+    });
+  }
+
+  /* ---------- boot ---------- */
+  const RENDERERS = { base: renderBase, a: renderA, b: renderB, c: renderC, d: renderD, e: renderE };
+  document.querySelectorAll('.stage').forEach((stage) => {
+    stage._timers = [];
+    const inner = el('div', 'stage-inner');
+    const btn = el('button', 'replay', '↻ replay');
+    stage.append(inner, btn);
+    const play = () => {
+      clearTimers(stage);
+      stage.querySelectorAll('.confetti, .flash').forEach((n) => n.remove());
+      inner.innerHTML = '';
+      inner.className = 'stage-inner';
+      RENDERERS[stage.dataset.opt](inner, stage);
+    };
+    btn.addEventListener('click', play);
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (en.isIntersecting) { io.disconnect(); play(); }
+      });
+    }, { threshold: 0.35 });
+    io.observe(stage);
+  });
+})();
+</script>
+</body>
+</html>
